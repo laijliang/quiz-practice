@@ -1238,12 +1238,19 @@ function parseNaturalBlock(block) {
             continue;
         }
 
-        // Title
+        // Title — or multi-line title continuation
         if (!title) {
             title = line;
             continue;
         }
 
+        // If we haven't started parsing options yet, append to title (multi-line title)
+        if (!options.A && !options.B && !options.C && !options.D && collectingOption === null) {
+            title += '\n' + line;
+            continue;
+        }
+
+        // Any remaining line for a collecting option
         if (collectingOption !== null) {
             options[collectingOption] = line;
             collectingOption = null;
@@ -1302,7 +1309,7 @@ function refreshBank() {
     let html = sorted.slice(0, showCount).map(q => `
         <div class="question-item" onclick="previewQuestion(${q.id})">
             <div class="q-info">
-                <div class="q-title">${escapeHtml(q.title)}</div>
+                <div class="q-title">${escapeTitle(q.title)}</div>
                 <div class="q-meta">
                     <span>A: ${escapeHtml(q.options.A)}</span>
                     <span>B: ${escapeHtml(q.options.B)}</span>
@@ -1336,7 +1343,7 @@ function previewQuestion(id) {
     const overlay = document.getElementById('previewOverlay');
     overlay.innerHTML = `
         <div class="preview-card">
-            <div class="q-title-preview">${escapeHtml(q.title)}${typeBadge}</div>
+            <div class="q-title-preview">${escapeTitle(q.title)}${typeBadge}</div>
             ${['A','B','C','D'].map(letter => {
                 const isCorrect = q.answer.includes(letter);
                 return `<div class="preview-option${isCorrect ? ' correct-preview' : ''}">
@@ -1366,6 +1373,9 @@ function escapeHtml(str) {
     const div = document.createElement('div');
     div.textContent = str;
     return div.innerHTML;
+}
+function escapeTitle(str) {
+    return escapeHtml(str).replace(/\n/g, '<br>');
 }
 
 // ==================== 练习功能 ====================
@@ -1429,7 +1439,7 @@ function renderQuestion() {
 
     // Question with type badge
     const typeBadge = isMulti ? '<span class="multi-hint">不定项选择</span>' : '';
-    document.getElementById('questionDisplay').innerHTML = escapeHtml(q.title) + typeBadge;
+    document.getElementById('questionDisplay').innerHTML = escapeTitle(q.title) + typeBadge;
 
     // Options
     const optionsList = document.getElementById('optionsList');
@@ -1566,7 +1576,7 @@ function showResult(correct, total, results) {
                     return '<div class="result-q">' +
                         '<span class="icon">' + (r.isCorrect ? '✅' : '❌') + '</span>' +
                         '<span style="flex:1;min-width:0;">' +
-                        '<strong>' + (i + 1) + '.</strong> ' + escapeHtml(q.title) + typeLabel +
+                        '<strong>' + (i + 1) + '.</strong> ' + escapeTitle(q.title) + typeLabel +
                         '<br><span style="font-size:12px;color:var(--text-secondary);">' +
                         '你的答案: ' + r.userAnswer + ' &nbsp;|&nbsp; 正确答案: ' + q.answer +
                         (!r.isCorrect ? ' (' + correctDisplay + ')' : '') +
