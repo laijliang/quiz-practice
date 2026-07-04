@@ -817,8 +817,9 @@
 <div class="header">
     <h1>选择题练习</h1>
     <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab('bank')">📚 题库管理</button>
-        <button class="tab-btn" onclick="switchTab('practice')">✏️ 开始练习</button>
+        <button class="tab-btn active" data-tab="bank" onclick="switchTab('bank')">📚 题库管理</button>
+        <button class="tab-btn" data-tab="practice" onclick="switchTab('practice')">✏️ 开始练习</button>
+        <button class="tab-btn" data-tab="wrongbook" onclick="switchTab('wrongbook')">📕 错题本</button>
     </div>
 </div>
 
@@ -997,6 +998,26 @@
 </div>
 
 <!-- Result overlay -->
+<!-- 错题本面板 -->
+<div id="panel-wrongbook" class="panel">
+    <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
+            <h2 style="margin:0;">📕 错题本</h2>
+            <div style="display:flex;gap:8px;">
+                <button class="btn btn-primary" onclick="practiceWrongBook()">📖 练习错题</button>
+                <button class="btn btn-outline" onclick="exportWrongNotes()">📤 导出</button>
+                <button class="btn btn-danger" onclick="clearWrongBook()">清空</button>
+            </div>
+        </div>
+        <div id="wrongBookList">
+            <div class="empty-state">
+                <div class="icon">🧾</div>
+                <p>错题本空空如也</p>
+                <p style="font-size:13px;color:var(--text-secondary)">练习后将错题加入错题本</p>
+            </div>
+        </div>
+    </div>
+</div>
 <div id="resultOverlay" class="result-overlay hidden"></div>
 
 <!-- Preview overlay -->
@@ -1418,15 +1439,19 @@ function switchTab(tab) {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
 
+    const btn = document.querySelector('.tab-btn[data-tab="' + tab + '"]');
+    if (btn) btn.classList.add('active');
+
     if (tab === 'bank') {
-        document.querySelector('.tab-btn:first-child').classList.add('active');
         document.getElementById('panel-bank').classList.add('active');
         bankPage = 1;
         refreshBank();
-    } else {
-        document.querySelector('.tab-btn:last-child').classList.add('active');
+    } else if (tab === 'practice') {
         document.getElementById('panel-practice').classList.add('active');
         refreshPracticeInfo();
+    } else if (tab === 'wrongbook') {
+        document.getElementById('panel-wrongbook').classList.add('active');
+        renderWrongBook();
     }
 }
 
@@ -2195,6 +2220,8 @@ function submitPractice() {
     });
 
     state.submitted = true;
+    // 保存本次练习结果，便于加入错题本
+    window.lastPracticeResults = results;
     showResult(correct, total, results);
 }
 
@@ -2238,6 +2265,7 @@ function showResult(correct, total, results) {
             <div style="margin-top:24px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
                 <button class="btn btn-primary" onclick="retryPractice()">🔄 再来一组</button>
                 <button class="btn btn-outline" onclick="closeResult()">📚 返回题库</button>
+                <button class="btn btn-primary" onclick="saveWrongToNotebook()">➕ 加入错题本</button>
             </div>
         </div>
     `;
@@ -2285,9 +2313,149 @@ document.addEventListener('keydown', function(e) {
 });
 
 // ==================== Init ====================
+// ==================== 错题本功能 ====================
+function loadWrongNotes() {
+    try { return JSON.parse(localStorage.getItem('wrongNotes') || '[]'); } catch (e) { return []; }
+}
+function saveWrongNotes(notes) {
+    localStorage.setItem('wrongNotes', JSON.stringify(notes || []));
+}
+
+function renderWrongBook() {
+    const notes = loadWrongNotes();
+    const container = document.getElementById('wrongBookList');
+    if (!container) return;
+    if (!notes || notes.length === 0) {
+        container.innerHTML = `
+            <div class="empty-state">
+                <div class="icon">🧾</div>
+                <p>错题本空空如也</p>
+                <p style="font-size:13px;color:var(--text-secondary)">练习后将错题加入错题本</p>
+            </div>`;
+        return;
+    }
+
+    container.innerHTML = notes.map((n, idx) => `
+        <div class="question-item">
+            <div class="q-info">
+                <div class="q-title">${escapeTitle(n.question.title)}</div>
+                <div class="q-meta">
+                    <span>你的答案: ${n.userAnswer}</span>
+                    <span>正确答案: ${n.question.answer}</span>
+                    <span>${new Date(n.savedAt).toLocaleString()}</span>
+                </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end;">
+                <button class="btn btn-outline" onclick="viewWrongDetail(${idx})">查看</button>
+                <button class="delete-btn" title="删除" onclick="removeWrongNote(${idx})">✖</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+function saveWrongToNotebook() {
+    const results = window.lastPracticeResults;
+    if (!results || !Array.isArray(results)) {
+        showToast('⚠️ 当前没有可保存的练习结果');
+        return;
+    }
+    const notes = loadWrongNotes();
+    let added = 0;
+    results.forEach(r => {
+        if (!r.isCorrect) {
+            const q = r.question;
+            // dedupe by question id if present, otherwise by title
+            const keyMatch = notes.findIndex(n => (n.question.id && q.id && n.question.id === q.id) || n.question.title === q.title);
+            const entry = { question: q, userAnswer: r.userAnswer, savedAt: Date.now() };
+            if (keyMatch === -1) {
+                notes.push(entry);
+                added++;
+            } else {
+                // update existing
+                notes[keyMatch].userAnswer = r.userAnswer;
+                notes[keyMatch].savedAt = Date.now();
+            }
+        }
+    });
+    saveWrongNotes(notes);
+    renderWrongBook();
+    showToast(`已保存 ${added} 道错题到错题本`);
+}
+
+function removeWrongNote(idx) {
+    const notes = loadWrongNotes();
+    if (idx < 0 || idx >= notes.length) return;
+    notes.splice(idx, 1);
+    saveWrongNotes(notes);
+    renderWrongBook();
+}
+
+function clearWrongBook() {
+    if (!confirm('确定要清空错题本吗？此操作不可撤销。')) return;
+    saveWrongNotes([]);
+    renderWrongBook();
+}
+
+function exportWrongNotes() {
+    const notes = loadWrongNotes();
+    if (!notes || notes.length === 0) { showToast('错题本为空'); return; }
+    const data = JSON.stringify(notes, null, 2);
+    const a = document.createElement('a');
+    const blob = new Blob([data], { type: 'application/json' });
+    a.href = URL.createObjectURL(blob);
+    a.download = 'wrong-notes.json';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    showToast('已导出错题本');
+}
+
+function viewWrongDetail(idx) {
+    const notes = loadWrongNotes();
+    const n = notes[idx];
+    if (!n) return;
+    const q = n.question;
+    const isMulti = q.type === 'multi';
+    const typeBadge = isMulti
+        ? '<span class="preview-type-badge" style="background:#fef3c7;color:#92400e;">不定项选择</span>'
+        : '<span class="preview-type-badge" style="background:#dcfce7;color:#166534;">单选题</span>';
+    const overlay = document.getElementById('previewOverlay');
+    overlay.innerHTML = `
+        <div class="preview-card">
+            <div class="q-title-preview">${escapeTitle(q.title)}${typeBadge}</div>
+            ${['A','B','C','D'].map(letter => {
+                const isCorrect = q.answer.includes(letter);
+                return `<div class="preview-option${isCorrect ? ' correct-preview' : ''}">
+                    <div class="preview-letter">${letter}</div>
+                    <div class="option-text">${escapeHtml(q.options[letter])}</div>
+                    ${isCorrect ? '<span style="font-size:20px;flex-shrink:0;">✅</span>' : ''}
+                </div>`;
+            }).join('')}
+            <div class="preview-answer-bar">
+                ✅ 正确答案：${q.answer.split('').join('、')} &nbsp;|&nbsp; 你的答案：${n.userAnswer}
+            </div>
+            <div class="preview-actions-row">
+                <button class="btn btn-outline" onclick="closePreview()">关闭</button>
+            </div>
+        </div>
+    `;
+    overlay.classList.remove('hidden');
+}
+
+function practiceWrongBook() {
+    const notes = loadWrongNotes();
+    if (!notes || notes.length === 0) { showToast('错题本为空'); return; }
+    const questions = notes.map(n => n.question);
+    practiceState = { questions: questions, answers: {}, submitted: false };
+    document.getElementById('prePractice').classList.add('hidden');
+    document.getElementById('inPractice').classList.remove('hidden');
+    switchTab('practice');
+    renderAllQuestions();
+}
 initQuestions();
 refreshBank();
 refreshPracticeInfo();
+renderWrongBook();
 </script>
 
 </body>
