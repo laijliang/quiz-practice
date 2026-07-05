@@ -35,10 +35,11 @@
             background: var(--card-bg);
             border-bottom: 1px solid var(--border);
             padding: 0 24px;
-            height: 60px;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
             box-shadow: var(--shadow);
             position: sticky;
             top: 0;
@@ -51,6 +52,9 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            min-width: 0;
+            word-break: break-word;
+            white-space: normal;
         }
         .header h1::before { content: "📝"; font-size: 22px; }
 
@@ -576,7 +580,58 @@
             justify-content: flex-end;
         }
 
+        /* Pagination */
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .page-btn {
+            width: 36px; height: 36px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: #fff;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text);
+            transition: all 0.15s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .page-btn:hover:not(.active):not(:disabled) {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        .page-btn.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+        .page-btn:disabled {
+            opacity: 0.4;
+            cursor: default;
+        }
+        .page-nav {
+            padding: 0 12px;
+            width: auto;
+        }
+        .page-info {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin: 0 8px;
+        }
+
         .hidden { display: none !important; }
+
+        .bank-banner:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4) !important;
+        }
 
         /* Batch import */
         .batch-area {
@@ -608,12 +663,156 @@
             font-size: 11px;
         }
 
+        /* Scrollable practice */
+        .practice-topbar {
+            position: sticky;
+            top: 60px;
+            z-index: 50;
+            background: var(--bg);
+            padding: 16px 0 8px;
+            margin: 0 -16px;
+            padding-left: 16px;
+            padding-right: 16px;
+        }
+        .practice-topbar-inner {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 16px;
+            box-shadow: var(--shadow);
+        }
+        .practice-bottombar {
+            position: sticky;
+            bottom: 0;
+            z-index: 50;
+            background: var(--bg);
+            padding: 12px 0;
+            margin: 0 -16px;
+            padding-left: 16px;
+            padding-right: 16px;
+            text-align: center;
+        }
+        .practice-bottombar .btn {
+            box-shadow: 0 4px 12px rgba(16, 163, 74, 0.3);
+        }
+        .questions-scroll {
+            padding-bottom: 8px;
+        }
+        .question-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 20px;
+            margin-bottom: 16px;
+            scroll-margin-top: 80px;
+            border: 2px solid transparent;
+            transition: border-color 0.2s;
+        }
+        .question-card.answered {
+            border-color: #bbf7d0;
+        }
+        .question-card .q-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        .question-card .q-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: #fff;
+            font-weight: 700;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+        .question-card .q-number.done {
+            background: var(--success);
+        }
+        .question-card .q-title {
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 1.7;
+            word-break: break-all;
+            flex: 1;
+        }
+        .question-card .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .question-card .option-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.15s;
+            font-size: 15px;
+        }
+        .question-card .option-item:hover { border-color: #c4b5fd; background: #f5f3ff; }
+        .question-card .option-item.selected {
+            border-color: var(--primary);
+            background: #eef2ff;
+        }
+        .question-card .option-item.correct {
+            border-color: var(--success) !important;
+            background: #f0fdf4 !important;
+        }
+        .question-card .option-item.wrong {
+            border-color: var(--danger) !important;
+            background: #fef2f2 !important;
+        }
+        .question-card .option-letter {
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            background: #e2e8f0;
+            color: var(--text);
+            flex-shrink: 0;
+            transition: all 0.15s;
+        }
+        .question-card .option-item.selected .option-letter { background: var(--primary); color: #fff; }
+        .question-card .option-item.correct .option-letter { background: var(--success); color: #fff; }
+        .question-card .option-item.wrong .option-letter { background: var(--danger); color: #fff; }
+        .question-card .option-text { flex: 1; word-break: break-all; }
+        .question-card .q-multi-hint {
+            display: inline-block;
+            background: #fef3c7;
+            color: #92400e;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            vertical-align: middle;
+        }
+        .question-card .q-single-hint {
+            display: inline-block;
+            background: #dcfce7;
+            color: #166534;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            vertical-align: middle;
+        }
+
         @media (max-width: 600px) {
             .container { padding: 12px 8px; }
             .card { padding: 16px; }
             .form-row { grid-template-columns: 1fr; }
-            .header h1 { font-size: 16px; }
-            .tab-btn { padding: 6px 12px; font-size: 13px; }
+            .header { padding: 12px 16px; }
+            .header h1 { font-size: 18px; width: 100%; }
+            .tabs { width: 100%; justify-content: flex-start; }
+            .tab-btn { padding: 6px 10px; font-size: 13px; flex: 1 1 auto; }
             .question-display { font-size: 16px; }
             .result-score { font-size: 48px; }
         }
@@ -624,8 +823,9 @@
 <div class="header">
     <h1>选择题练习</h1>
     <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab('bank')">📚 题库管理</button>
-        <button class="tab-btn" onclick="switchTab('practice')">✏️ 开始练习</button>
+        <button class="tab-btn active" data-tab="bank" onclick="switchTab('bank')">📚 题库管理</button>
+        <button class="tab-btn" data-tab="practice" onclick="switchTab('practice')">✏️ 开始练习</button>
+        <button class="tab-btn" data-tab="wrongbook" onclick="switchTab('wrongbook')">📕 错题本</button>
     </div>
 </div>
 
@@ -636,6 +836,23 @@
 
         <!-- Stats -->
         <div class="stats-bar" id="statsBar"></div>
+
+        <!-- 题库信息 -->
+        <div class="card bank-banner" id="bankBanner" onclick="toggleQuestionList()" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff; border: none; cursor: pointer; transition: all 0.2s; user-select: none;">
+            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <div id="bannerArrow" style="font-size: 20px; transition: transform 0.3s;">▶</div>
+                    <div>
+                        <h2 style="margin: 0 0 6px 0; font-size: 18px; color: #fff;">📚 程序设计II</h2>
+                        <p style="margin: 0; font-size: 13px; opacity: 0.9;">25级 · 陈武辉 · 软件工程学院</p>
+                    </div>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 36px; font-weight: 800; line-height: 1;" id="bannerCount">340</div>
+                    <div style="font-size: 12px; opacity: 0.85;">道题目</div>
+                </div>
+            </div>
+        </div>
 
         <!-- Add single question -->
         <div class="card">
@@ -718,7 +935,8 @@
             <button class="btn btn-primary" onclick="batchImport()">批量导入</button>
         </div>
 
-        <!-- Question list -->
+        <!-- Question list (collapsible) -->
+        <div id="questionListPanel" class="hidden">
         <div class="card">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 8px;">
                 <h2 style="margin-bottom: 0;">📖 题目列表</h2>
@@ -736,6 +954,7 @@
                     <p style="font-size:13px;">用上方表单或批量导入添加题目吧</p>
                 </div>
             </div>
+        </div>
         </div>
     </div>
 
@@ -757,25 +976,25 @@
 
         <!-- Practice in progress -->
         <div id="inPractice" class="hidden">
-            <div class="progress-text">
-                <span id="progressLabel">第 1 / 20 题</span>
-                <span id="answeredLabel">已答 0 题</span>
-            </div>
-            <div class="progress-bar-wrap">
-                <div class="progress-bar-fill" id="progressFill" style="width:0%"></div>
-            </div>
-            <div class="card">
-                <div class="question-display" id="questionDisplay"></div>
-                <div class="options-list" id="optionsList"></div>
-                <div class="practice-actions">
-                    <button class="btn btn-outline" id="prevBtn" onclick="prevQuestion()" disabled>← 上一题</button>
-                    <div style="flex:1"></div>
-                    <span id="submitHint" style="font-size:13px;color:var(--text-secondary);align-self:center;"></span>
-                    <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()">下一题 →</button>
+            <!-- Sticky top bar -->
+            <div class="practice-topbar" id="practiceTopbar">
+                <div class="practice-topbar-inner">
+                    <div class="progress-text">
+                        <span id="progressLabel">第 1 / 20 题</span>
+                        <span id="answeredLabel">已答 0 题</span>
+                    </div>
+                    <div class="progress-bar-wrap">
+                        <div class="progress-bar-fill" id="progressFill" style="width:0%"></div>
+                    </div>
                 </div>
             </div>
-            <div style="text-align:center; margin-top:12px;">
-                <button class="btn btn-success" id="submitBtn" onclick="submitPractice()" style="display:none;">
+
+            <!-- Scrollable questions list -->
+            <div class="questions-scroll" id="questionsScroll"></div>
+
+            <!-- Sticky bottom submit bar -->
+            <div class="practice-bottombar" id="practiceBottombar">
+                <button class="btn btn-success btn-lg" onclick="submitPractice()">
                     ✅ 提交练习
                 </button>
             </div>
@@ -785,6 +1004,26 @@
 </div>
 
 <!-- Result overlay -->
+<!-- 错题本面板 -->
+<div id="panel-wrongbook" class="panel">
+    <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
+            <h2 style="margin:0;">📕 错题本</h2>
+            <div style="display:flex;gap:8px;">
+                <button class="btn btn-primary" onclick="practiceWrongBook()">📖 练习错题</button>
+                <button class="btn btn-outline" onclick="exportWrongNotes()">📤 导出</button>
+                <button class="btn btn-danger" onclick="clearWrongBook()">清空</button>
+            </div>
+        </div>
+        <div id="wrongBookList">
+            <div class="empty-state">
+                <div class="icon">🧾</div>
+                <p>错题本空空如也</p>
+                <p style="font-size:13px;color:var(--text-secondary)">练习后将错题加入错题本</p>
+            </div>
+        </div>
+    </div>
+</div>
 <div id="resultOverlay" class="result-overlay hidden"></div>
 
 <!-- Preview overlay -->
@@ -794,6 +1033,350 @@
 <div id="toastContainer"></div>
 
 <script>
+
+const DEFAULT_QUESTIONS = [
+    { id: 1, title: "本贾尼·斯特劳斯特卢普设计C++的初衷是将哪种语言的面向对象特征融入C语言？", options: { A: "Smalltalk-80", B: "Simula 67", C: "Pascal", D: "Objective C" }, answer: "B", type: "single" },
+    { id: 2, title: "下列哪一年首次实现了C++编译器？", options: { A: "1979年", B: "1983年", C: "1985年", D: "1998年" }, answer: "B", type: "single" },
+    { id: 3, title: "面向对象编程语言的三大核心特性不包括？", options: { A: "封装", B: "继承", C: "多态", D: "指针" }, answer: "D", type: "single" },
+    { id: 4, title: "现代C++中，2011年发布的重要标准是？", options: { A: "C++98", B: "C++11", C: "C++14", D: "C++17" }, answer: "B", type: "single" },
+    { id: 5, title: "C++源代码的后缀名不包括？", options: { A: "cpp", B: "cc", C: "c", D: "以上都不是" }, answer: "C", type: "single" },
+    { id: 6, title: "编译C++程序的专用工具是？", options: { A: "gcc", B: "g++", C: "vc", D: "dev" }, answer: "B", type: "single" },
+    { id: 7, title: "C++中标准输入输出库的头文件是？", options: { A: "stdio.h", B: "iostream.h", C: "iostream", D: "cstdio" }, answer: "C", type: "single" },
+    { id: 8, title: "下列哪个不是头文件中定义的标准流对象？", options: { A: "cout", B: "cin", C: "cerr", D: "coutf" }, answer: "D", type: "single" },
+    { id: 9, title: "C++中endl的作用是？", options: { A: "仅输出换行符", B: "输出换行符并冲洗输出流", C: "冲洗输出流", D: "输出空格" }, answer: "B", type: "single" },
+    { id: 10, title: "用于设置浮点输出精度的有参操纵符，需要包含哪个头文件？", options: { A: "iostream", B: "cstdio", C: "iomanip", D: "string" }, answer: "C", type: "single" },
+    { id: 11, title: "C++中cout << 123.45的<<本质是？", options: { A: "位移运算符", B: "重载后的输出运算符", C: "赋值运算符", D: "比较运算符" }, answer: "B", type: "single" },
+    { id: 12, title: "C++中解决命名冲突的核心机制是？", options: { A: "指针", B: "引用", C: "命名空间", D: "类" }, answer: "C", type: "single" },
+    { id: 13, title: "C++标准库的所有符号都位于哪个命名空间中？", options: { A: "std", B: "system", C: "io", D: "c++" }, answer: "A", type: "single" },
+    { id: 14, title: "C++中的作用域解析运算符是？", options: { A: "::", B: "->", C: "io", D: "c++" }, answer: "A", type: "single" },
+    { id: 15, title: "要单独使用std命名空间中的cout，正确的写法是？", options: { A: "using cout;", B: "std::cout", C: "cout::std", D: "using std.cout;" }, answer: "B", type: "single" },
+    { id: 16, title: "关于C++引用，下列说法错误的是？", options: { A: "引用是变量的别名", B: "引用必须在定义时初始化", C: "存在空引用", D: "不存在引用的数组" }, answer: "C", type: "single" },
+    { id: 17, title: "C++左值引用的声明语法正确的是？", options: { A: "type &别名 = 左值表达式", B: "type *别名 = 左值表达式", C: "type &别名;", D: "type 别名& = 左值表达式" }, answer: "A", type: "single" },
+    { id: 18, title: "引用与指针的相同点是？", options: { A: "都可以为空", B: "原理完全一致", C: "都能让函数向调用者返回多个数值", D: "都不占用内存" }, answer: "C", type: "single" },
+    { id: 19, title: "下列关于 C++ 引用和指针的区别，说法正确的是？", options: { A: "引用可以为空，指针不能为空", B: "引用是变量别名，指针存储变量地址", C: "引用和指针的实现原理完全相同", D: "引用可以定义数组，指针不可以" }, answer: "B", type: "single" },
+    { id: 20, title: "关于C/C++内存模型，函数的参数和自动变量存放在哪个区域？", options: { A: "正文段", B: "数据段", C: "堆", D: "栈" }, answer: "D", type: "single" },
+    { id: 21, title: "在C++中，std::string类相较于C风格字符串的主要优势是什么？", options: { A: "std::string的运行速度一定比C风格字符串快", B: "std::string不需要分配内存", C: "std::string能自动管理内存，避免了手动分配空间的复杂性与风险", D: "std::string只能用于存储字符，不能用于存储数字" }, answer: "C", type: "single" },
+    { id: 22, title: "关于std::string  s(\"hello\");的初始化方式，以下说法正确的是：", options: { A: "这是一个赋值运算", B: "这是一个构造函数的调用，即对象初始化", C: "s必须先声明为变量才能初始化", D: "这种写法在C++中是错误的" }, answer: "B", type: "single" },
+    { id: 23, title: "在string操作中，若要从字符串中查找特定子串，应使用：", options: { A: "search()", B: "find()", C: "replace()", D: "substr()" }, answer: "B", type: "single" },
+    { id: 24, title: "std::string的operator[]运算符重载，其返回值是什么？", options: { A: "字符的值", B: "字符的引用，可以作为左值", C: "字符串的指针", D: "字符的ASCII码" }, answer: "B", type: "single" },
+    { id: 25, title: "关于函数重载（Function Overloading），以下描述最准确的是：", options: { A: "函数名必须不同，参数列表可以相同", B: "函数名相同，参数列表必须不同", C: "函数重载是C语言的核心特性", D: "重载函数必须具有不同的返回类型" }, answer: "B", type: "single" },
+    { id: 26, title: "下列代码片段中，s的最终结果是：string  s  =  \"ysu\";  s.insert(0,1,'S');", options: { A: "\"ysuS\"", B: "\"Sysu\"", C: "\"S\"", D: "错误代码" }, answer: "B", type: "single" },
+    { id: 27, title: "关于C++11引入的constexpr关键字，下列说法正确的是：", options: { A: "用于替代const的所有功能", B: "声明编译时可以对函数或变量求值", C: "只能用于修饰指针", D: "修饰的变量在运行时可以修改" }, answer: "B", type: "single" },
+    { id: 28, title: "关于auto关键字的原理，以下描述正确的是：", options: { A: "在运行时根据变量的值自动推导类型", B: "在编译期间根据初始化表达式自动推导出对象的类型", C: "将变量强制转换为int类型", D: "允许在函数参数中随意使用auto" }, answer: "B", type: "single" },
+    { id: 29, title: "以下关于auto的使用，正确的是：", options: { A: "auto  x;", B: "auto  x  =  5,  y  =  5.5;", C: "auto  x  =  10;", D: "函数参数可以声明为auto" }, answer: "C", type: "single" },
+    { id: 31, title: "std::string类中，返回字符串长度的成员函数是：", options: { A: "size()", B: "count()", C: "length()", D: "strlen()" }, answer: "AC", type: "multi" },
+    { id: 32, title: "使用string::substr(pos,  count)函数的作用是：", options: { A: "比较子串", B: "提取子字符串对象", C: "替换子字符串", D: "删除子字符串" }, answer: "B", type: "single" },
+    { id: 33, title: "下列关于string的运算符重载，说法错误的是：", options: { A: "operator+用于连接字符串", B: "operator==用于比较两个字符串内容", C: "operator=用于赋值", D: "operator[]只能用于读取，不能修改字符" }, answer: "D", type: "single" },
+    { id: 34, title: "下列关于C++中引用C标准库的说法，正确的是：", options: { A: "只能通过原有的C头文件（如<stdio.h>）引用", B: "提供了c+C标头文件名的命名方式（如<cstdio>）", C: "C标准库函数不能在C++中使用", D: "C++标准库不包含任何C库设施" }, answer: "B", type: "single" },
+    { id: 35, title: "关于string对象的swap()成员函数，其作用是：", options: { A: "将当前字符串复制给另一个字符串", B: "与另一个string对象交换内容", C: "比较两个字符串并返回较大的那个", D: "逆序当前字符串" }, answer: "B", type: "single" },
+    { id: 36, title: "在定义auto序列变量时，下列哪种写法是合法的？", options: { A: "auto  x  =  1,  y  =  2;", B: "auto  x  =  1,  y  =  2.0;", C: "auto  x  =  'a',  y  =  10;", D: "auto序列变量不能同时定义多个" }, answer: "A", type: "single" },
+    { id: 37, title: "string::compare()函数的返回值通常包括：", options: { A: "true 或 false", B: "1, 0, -1", C: "字符串的首地址", D: "字符串的长度" }, answer: "B", type: "single" },
+    { id: 38, title: "下列关于C风格字符串与std::string的描述，正确的有：", options: { A: "C风格字符串使用null字符'\\0'终止", B: "std::string引入是为了简化字符串管理", C: "C风格字符串定义时必须事先知道空间大小", D: "std::string操作时完全不需要考虑内存空间问题" }, answer: "ABC", type: "multi" },
+    { id: 39, title: "下列哪些属于std::string提供的成员函数？", options: { A: "append()", B: "rfind()", C: "stoi()", D: "malloc()" }, answer: "AB", type: "multi" },
+    { id: 40, title: "关于const与constexpr的区分，正确的有：", options: { A: "const更侧重于表达“只读”语义", B: "constexpr更侧重于表达“常量”语义", C: "const修饰的变量一定能在编译时求值", D: "constexpr是C++11引入的关键字" }, answer: "ABD", type: "multi" },
+    { id: 41, title: "关于auto关键字的限制，以下说法正确的有：", options: { A: "用auto声明的变量必须初始化", B: "函数参数不能被声明为auto", C: "模板参数不能被声明为auto", D: "auto可以用于sizeof操作" }, answer: "ABC", type: "multi" },
+    { id: 42, title: "一个抽象数据类型（ADT）通常由哪两个部分组成？", options: { A: "数据和行为", B: "公有和私有", C: "声明部分和实现部分", D: "变量和常量" }, answer: "C", type: "single" },
+    { id: 43, title: "在C++中，使用关键字 class 定义的类，其成员的默认访问权限是（ ）。", options: { A: "public", B: "protected", C: "private", D: "static" }, answer: "C", type: "single" },
+    { id: 44, title: "在C++中，使用关键字 struct 定义的类，其成员的默认访问权限是（ ）。", options: { A: "public", B: "protected", C: "private", D: "internal" }, answer: "A", type: "single" },
+    { id: 45, title: "C语言中的 struct 与 C++ 中的 struct 最主要的区别是（ ）。", options: { A: "C语言的 struct 不支持嵌套", B: "C++ 的 struct 默认是私有的", C: "C语言的 struct 只能包含变量，而 C++ 的 struct 可以包含成员函数", D: "C++ 的 struct 必须配合 typedef 使用" }, answer: "C", type: "single" },
+    { id: 46, title: "如果一个成员函数被声明为 const（如 int getYear() const;），这意味着（ ）。", options: { A: "该函数只能访问公有数据", B: "该函数不能修改类的数据成员", C: "该函数只能由 const 对象调用", D: "该函数的返回值是常量" }, answer: "B", type: "single" },
+    { id: 47, title: "在类定义内部直接给出函数体的成员函数，会被编译器默认为（ ）。", options: { A: "静态函数", B: "虚函数", C: "内联函数", D: "友元函数" }, answer: "C", type: "single" },
+    { id: 48, title: "下列关于“对象（Object）”的说法，错误的是（ ）。", options: { A: "对象是类的实例", B: "类是定义数据类型的蓝图，而对象是实际的数据实体", C: "对象在创建时，其默认初始化值在所有情况下都是确定的", D: "可以使用点运算符访问对象的公有成员" }, answer: "C", type: "single" },
+    { id: 49, title: "在 DATE 类例子中，为了实现信息隐藏，通常将 year, month, day 声明为（ ）。", options: { A: "public", B: "private", C: "protected", D: "inline" }, answer: "B", type: "single" },
+    { id: 50, title: "访问一个对象 date 的公有成员函数 Set 的正确语法是（ ）。", options: { A: "date::Set(2024, 3, 1)", B: "date->Set(2024, 3, 1)", C: "date.Set(2024, 3, 1)", D: "Set.date(2024, 3, 1)" }, answer: "C", type: "single" },
+    { id: 51, title: "在多文件编译中，类声明通常放在（ ）文件中。", options: { A: ".cpp", B: ".hpp 或 .h", C: ".exe", D: ".obj" }, answer: "B", type: "single" },
+    { id: 52, title: "ADT 的用户（使用者）需要关心的是（ ）。", options: { A: "私有数据成员的存储结构", B: "公有成员函数的具体算法实现", C: "声明部分（说明该 ADT 是什么及如何使用）", D: "该类在内存中的精确地址" }, answer: "C", type: "single" },
+    { id: 53, title: "在C++中，class 和 struct 的主要语法区别在于（ ）。", options: { A: "class 可以包含函数，struct 不行", B: "struct 可以继承，class 不行", C: "默认访问权限（public 或 private）不同", D: "class 必须定义构造函数" }, answer: "C", type: "single" },
+    { id: 54, title: "在 DATE 类的实现中，Print 函数内部使用了 cout，因此在实现文件 DATE.cpp 中需要包含（ ）。", options: { A: "DATE.hpp", B: "iostream", C: "cmath", D: "string" }, answer: "B", type: "single" },
+    { id: 55, title: "如果要表示一个 3D 向量，并定义 x, y, z 分量，下列哪种方式最符合 C++ 类封装的初衷？", options: { A: "全部声明为 public", B: "数据声明为 private，提供 public 的 get/set 函数", C: "全部声明为 private，不提供任何访问方式", D: "不使用类，直接用三个独立变量" }, answer: "B", type: "single" },
+    { id: 56, title: "以下哪项不属于类的成员？", options: { A: "成员变量", B: "成员函数", C: "在类外定义的普通全局变量", D: "访问说明符后的内容" }, answer: "C", type: "single" },
+    { id: 57, title: "（多选）关于 C++ 中的访问说明符，以下哪些是正确的？", options: { A: "public 公有，对象使用者可访问", B: "private 私有，仅对象内部可访问", C: "protected 受保护", D: "static 静态访问" }, answer: "ABC", type: "multi" },
+    { id: 58, title: "（多选）在 C++ 中，可以使用哪些关键字来定义类？", options: { A: "class", B: "struct", C: "union", D: "enum" }, answer: "ABC", type: "multi" },
+    { id: 59, title: "（多选）抽象数据类型（ADT）的特征包括（ ）。", options: { A: "数据特征", B: "物理地址特征", C: "行为特征", D: "编译原理特征" }, answer: "AC", type: "multi" },
+    { id: 60, title: "（多选）关于成员函数的外部定义，以下哪些说法是正确的？", options: { A: "必须使用 :: 运算符", B: "必须在定义前加上 inline 关键字才能编译", C: "函数原型必须先在类定义中声明", D: "外部定义允许将接口与实现分离" }, answer: "ACD", type: "multi" },
+    { id: 61, title: "（多选）在 DATE 类的例子中，哪些函数被设计为可以改变对象的状态（非 const）？", options: { A: "Set", B: "Print", C: "Increment", D: "Decrement" }, answer: "ACD", type: "multi" },
+    { id: 62, title: "在面向对象设计中，继承最常用于表示哪种关系？", options: { A: "has-a 组合关系", B: "is-a 从属关系", C: "friend 友元关系", D: "uses-a 临时调用关系" }, answer: "B", type: "single" },
+    { id: 63, title: "若 Dog 公有继承 Animal，正确的类定义写法是：", options: { A: "class Dog public Animal { };", B: "class Dog : public Animal { };", C: "class Dog extends Animal { };", D: "class Dog -> Animal { };" }, answer: "B", type: "single" },
+    { id: 64, title: "在 class D : B { }; 中，如果没有写继承访问控制，则默认继承方式是：", options: { A: "public", B: "protected", C: "private", D: "由基类决定" }, answer: "C", type: "single" },
+    { id: 65, title: "关于 protected 成员，下列说法正确的是：", options: { A: "类外普通函数可以直接访问", B: "派生类成员函数可以访问", C: "只能构造函数访问", D: "与 public 完全相同" }, answer: "B", type: "single" },
+    { id: 66, title: "无论采用哪种继承方式，基类的 private 成员在派生类中通常是：", options: { A: "公有成员", B: "受保护成员", C: "可直接访问成员", D: "不可访问成员，派生类成员函数也不能访问该成员本身" }, answer: "D", type: "single" },
+    { id: 67, title: "若 class D : public B，且 B 中有 public 成员函数 f()，则 f() 在 D 中的继承访问级别通常是：", options: { A: "仍为 public", B: "变为 protected", C: "变为 private", D: "被删除" }, answer: "A", type: "single" },
+    { id: 68, title: "若 class D : protected B，则 B 的 public 成员在 D 中会变成：", options: { A: "public", B: "protected", C: "private", D: "不可访问" }, answer: "B", type: "single" },
+    { id: 69, title: "若 class D : private B，则 B 的 public 成员在 D 中会变成：", options: { A: "public", B: "protected", C: "private", D: "仍由外部直接访问" }, answer: "C", type: "single" },
+    { id: 70, title: "关于基类构造函数，下列说法正确的是：", options: { A: "基类构造函数会被派生类继承为普通成员函数", B: "派生类不需要声明自己的构造函数", C: "基类构造函数不被继承，但创建派生类对象时会先调用基类构造函数", D: "基类构造函数总是在派生类构造函数之后调用" }, answer: "C", type: "single" },
+    { id: 71, title: "若基类 Base 没有默认构造函数，而派生类 Derived 需要构造基类部分，则正确做法是：", options: { A: "在 Derived 构造函数体内写 Base(x);", B: "在 Derived 构造函数初始化列表中写 Base(x)", C: "让编译器自动生成 Base(x)", D: "在析构函数中调用 Base(x)" }, answer: "B", type: "single" },
+    { id: 72, title: "创建派生类对象时，构造函数调用顺序通常是：", options: { A: "派生类构造函数、成员对象构造函数、基类构造函数", B: "基类构造函数、成员对象构造函数、派生类构造函数", C: "成员对象构造函数、派生类构造函数、基类构造函数", D: "顺序不确定" }, answer: "B", type: "single" },
+    { id: 73, title: "销毁派生类对象时，析构函数调用顺序通常是：", options: { A: "基类析构、成员对象析构、派生类析构", B: "派生类析构、成员对象析构、基类析构", C: "成员对象析构、基类析构、派生类析构", D: "与构造顺序完全相同" }, answer: "B", type: "single" },
+    { id: 74, title: "类中有两个成员对象 a、b，它们的构造顺序取决于：", options: { A: "初始化列表中的书写顺序", B: "成员在类中声明的顺序", C: "成员变量名的字典序", D: "编译器随机选择" }, answer: "B", type: "single" },
+    { id: 75, title: "若有 class D : public B1, public B2，创建 D 对象时两个基类的构造顺序是：", options: { A: "先 B1 后 B2", B: "先 B2 后 B1", C: "按初始化列表顺序", D: "按析构函数定义顺序" }, answer: "A", type: "single" },
+    { id: 76, title: "关于派生类对象的存储模型，下列说法最合理的是：", options: { A: "派生类对象中包含基类子对象", B: "派生类对象只保存新增成员，不保存基类部分", C: "基类成员总是在派生类新增成员之后构造", D: "派生类对象不能访问任何基类成员函数" }, answer: "A", type: "single" },
+    { id: 79, title: "在派生类构造函数体内写 Base(x);，它通常表示：", options: { A: "初始化当前对象的基类子对象", B: "构造一个临时 Base 对象", C: "调用派生类析构函数", D: "修改继承方式" }, answer: "B", type: "single" },
+    { id: 80, title: "关于“直接派生类”和“间接派生类”，下列说法正确的是：", options: { A: "只有直接派生类能继承基类成员，间接派生类不能继承", B: "间接派生类也可能通过继承链获得基类成员", C: "间接派生类一定不是类", D: "直接派生类不能再作为基类" }, answer: "B", type: "single" },
+    { id: 81, title: "关于多重继承，下列说法正确的是：", options: { A: "一个派生类只能有一个直接基类", B: "一个派生类可以有两个或以上直接基类", C: "多重继承只能用于 struct", D: "多重继承中基类构造函数不会被调用" }, answer: "B", type: "single" },
+    { id: 82, title: "若基类 B 中有一个 protected 成员 x，并且派生类定义为：\nclass D : protected B { };\n​\n则 x 在 D 中的继承访问级别通常是：", options: { A: "public", B: "protected", C: "private", D: "不可访问" }, answer: "B", type: "single" },
+    { id: 83, title: "若基类 B 中有一个 protected 成员 x，并且派生类定义为：\nclass D : private B { };\n​\n则 x 在 D 中的继承访问级别通常是：", options: { A: "public", B: "protected", C: "private", D: "不可访问" }, answer: "C", type: "single" },
+    { id: 84, title: "下列哪一种错误通常会导致程序无法通过编译？", options: { A: "语法错误", B: "逻辑错误", C: "文件打开失败", D: "数组下标越界" }, answer: "A", type: "single" },
+    { id: 85, title: "程序能够正常运行，但得到的结果不符合预期，这通常属于哪一类错误？", options: { A: "语法错误", B: "逻辑错误", C: "链接错误", D: "编译器错误" }, answer: "B", type: "single" },
+    { id: 86, title: "在传统的 C 风格错误处理中，函数返回空指针通常表示什么？", options: { A: "函数执行成功", B: "函数执行失败", C: "函数没有返回值", D: "函数返回了整数 0" }, answer: "B", type: "single" },
+    { id: 87, title: "C++ 异常处理机制的主要作用是？", options: { A: "自动修复所有程序错误", B: "将正常处理代码与异常处理代码分离", C: "保证程序永远不会终止", D: "代替所有条件判断语句" }, answer: "B", type: "single" },
+    { id: 88, title: "在 C++ 中，抛出一个异常应使用哪个关键字？", options: { A: "catch", B: "throw", C: "try", D: "error" }, answer: "B", type: "single" },
+    { id: 89, title: "执行下面的语句后，当前正常执行流程会发生什么？\nthrow 10;\n​", options: { A: "程序继续执行下一条语句", B: "抛出一个 int 类型的异常", C: "创建一个值为 10 的普通变量", D: "自动返回函数值 10" }, answer: "B", type: "single" },
+    { id: 90, title: "可能抛出异常的代码通常应放在哪个代码块中？", options: { A: "if 块", B: "for 块", C: "try 块", D: "switch 块" }, answer: "C", type: "single" },
+    { id: 91, title: "如果 try 块中的代码没有抛出异常，紧跟在后面的 catch 块会怎样？", options: { A: "一定执行", B: "不执行", C: "只执行第一个", D: "只执行最后一个" }, answer: "B", type: "single" },
+    { id: 92, title: "当 try 块中抛出异常后，try 块中位于 throw 之后的语句会怎样？", options: { A: "继续正常执行", B: "重复执行", C: "不再执行", D: "只执行一次后再进入 catch" }, answer: "C", type: "single" },
+    { id: 93, title: "多个 catch 子句按照什么顺序检查？", options: { A: "按异常类型名称的字典序", B: "按它们书写的先后顺序", C: "从最后一个向前检查", D: "随机检查" }, answer: "B", type: "single" },
+    { id: 94, title: "下面哪一个 catch 可以捕获任意类型的异常？", options: { A: "catch (int)", B: "catch (std::exception&)", C: "catch (...)", D: "catch (void)" }, answer: "C", type: "single" },
+    { id: 95, title: "关于 catch (...) 的位置，下列说法正确的是？", options: { A: "必须写在所有 catch 之前", B: "通常应写在所有其他 catch 之后", C: "只能单独使用，不能和其他 catch 同时出现", D: "必须写在 try 块内部" }, answer: "B", type: "single" },
+    { id: 96, title: "捕获标准异常时，下面哪一种写法更推荐？", options: { A: "catch (std::exception e)", B: "catch (const std::exception& e)", C: "catch (std::exception* e)", D: "catch (void e)" }, answer: "B", type: "single" },
+    { id: 97, title: "标准异常对象的 what() 函数通常用于做什么？", options: { A: "返回异常的说明信息", B: "重新抛出异常", C: "判断异常类型", D: "结束程序" }, answer: "A", type: "single" },
+    { id: 98, title: "使用 vector::at() 访问越界下标时，通常会抛出哪种异常？", options: { A: "std::invalid_argument", B: "std::out_of_range", C: "std::bad_alloc", D: "std::overflow_error" }, answer: "B", type: "single" },
+    { id: 99, title: "当函数参数的取值不合法时，下面哪种标准异常比较合适？", options: { A: "std::invalid_argument", B: "std::bad_alloc", C: "std::out_of_range", D: "std::underflow_error" }, answer: "A", type: "single" },
+    { id: 100, title: "如果当前函数没有捕获它所接收到的异常，该异常通常会怎样？", options: { A: "自动消失", B: "转换为返回值", C: "向调用该函数的上一层传播", D: "自动改为警告信息" }, answer: "C", type: "single" },
+    { id: 101, title: "在 catch 块中单独使用下面的语句表示什么？\nthrow;\n​", options: { A: "创建一个新的整数异常", B: "重新抛出当前正在处理的异常", C: "结束当前循环", D: "忽略当前异常" }, answer: "B", type: "single" },
+    { id: 102, title: "自定义异常类通常建议继承下面哪个标准类？", options: { A: "std::string", B: "std::vector", C: "std::exception 或其派生类", D: "std::iostream" }, answer: "C", type: "single" },
+    { id: 103, title: "如果一个对象的构造函数在构造过程中抛出异常，下列说法正确的是？", options: { A: "该对象已经构造成功，并会正常调用析构函数", B: "该对象没有构造成功，因此不会调用该对象的析构函数", C: "程序一定会忽略该异常", D: "构造函数会自动重新执行一次" }, answer: "B", type: "single" },
+    { id: 104, title: "关于容器适配器，下列说法正确的是？", options: { A: "容器适配器是一种全新的基本数据类型", B: "容器适配器是在已有顺序容器基础上提供特定功能接口", C: "容器适配器只能存放整数", D: "容器适配器不能使用 STL 容器实现" }, answer: "B", type: "single" },
+    { id: 105, title: "下列哪一个是 STL 中的容器适配器？", options: { A: "vector", B: "list", C: "stack", D: "map" }, answer: "C", type: "single" },
+    { id: 106, title: "stack 的元素访问规则是？", options: { A: "先进先出", B: "后进先出", C: "随机访问", D: "按关键字访问" }, answer: "B", type: "single" },
+    { id: 107, title: "在 stack<int> s 中，向栈顶加入元素 x 应使用哪个操作？", options: { A: "s.insert(x)", B: "s.push(x)", C: "s.front(x)", D: "s.add(x)" }, answer: "B", type: "single" },
+    { id: 108, title: "在 stack<int> s 中，访问栈顶元素应使用哪个操作？", options: { A: "s.front()", B: "s.back()", C: "s.top()", D: "s.first()" }, answer: "C", type: "single" },
+    { id: 109, title: "关于 stack 的 pop() 操作，下列说法正确的是？", options: { A: "删除栈顶元素，并返回该元素", B: "删除栈底元素，并返回该元素", C: "删除栈顶元素，但没有返回值", D: "返回栈顶元素，但不删除元素" }, answer: "C", type: "single" },
+    { id: 110, title: "queue 的元素访问规则是？", options: { A: "后进先出", B: "先进先出", C: "按优先级访问", D: "按字典序访问" }, answer: "B", type: "single" },
+    { id: 111, title: "在 queue<int> q 中，访问队首元素应使用哪个操作？", options: { A: "q.top()", B: "q.front()", C: "q.begin()", D: "q.first()" }, answer: "B", type: "single" },
+    { id: 112, title: "在 queue<int> q 中，访问队尾元素应使用哪个操作？", options: { A: "q.back()", B: "q.top()", C: "q.end()", D: "q.last()" }, answer: "A", type: "single" },
+    { id: 113, title: "对于默认的 priority_queue<int> q，q.top() 返回的是？", options: { A: "当前最小值", B: "当前最大值", C: "最早插入的元素", D: "最晚插入的元素" }, answer: "B", type: "single" },
+    { id: 114, title: "默认情况下，stack 和 queue 使用的底层容器是？", options: { A: "vector", B: "list", C: "deque", D: "set" }, answer: "C", type: "single" },
+    { id: 115, title: "默认情况下，priority_queue 使用的底层容器是？", options: { A: "vector", B: "list", C: "map", D: "set" }, answer: "A", type: "single" },
+    { id: 116, title: "下列哪种迭代器支持 ++ 和 --，但不支持 it + n？", options: { A: "输入迭代器", B: "输出迭代器", C: "双向迭代器", D: "随机访问迭代器" }, answer: "C", type: "single" },
+    { id: 117, title: "vector 的迭代器属于哪一类？", options: { A: "正向迭代器", B: "双向迭代器", C: "随机访问迭代器", D: "输出迭代器" }, answer: "C", type: "single" },
+    { id: 118, title: "list 的迭代器支持下列哪种操作？", options: { A: "it++ 和 it--", B: "it + 3", C: "it[2]", D: "it += 5" }, answer: "A", type: "single" },
+    { id: 119, title: "下列哪种写法是 C++11 范围 for 遍历容器的正确形式？", options: { A: "for (auto x : container) { ... }", B: "for auto x in container { ... }", C: "for (container : auto x) { ... }", D: "foreach (x in container) { ... }" }, answer: "A", type: "single" },
+    { id: 120, title: "在遍历 vector 并使用 erase() 删除元素时，比较安全的做法是？", options: { A: "删除后继续使用原来的迭代器", B: "删除后直接让迭代器加 2", C: "使用 erase() 的返回值更新迭代器", D: "删除元素后立即结束程序" }, answer: "C", type: "single" },
+    { id: 121, title: "sort(vec.begin(), vec.end()) 默认会如何排序？", options: { A: "降序排序", B: "升序排序", C: "随机排序", D: "不改变顺序" }, answer: "B", type: "single" },
+    { id: 122, title: "下列哪段代码可以使 vector<int> vec 按降序排序？", options: { A: "sort(vec.begin(), vec.end());", B: "sort(vec.begin(), vec.end(), [](int a, int b) { return a > b; });", C: "sort(vec.end(), vec.begin());", D: "sort(vec.begin(), vec.end(), [](int a, int b) { return a == b; });" }, answer: "B", type: "single" },
+    { id: 123, title: "关于 count_if 和 accumulate，下列说法正确的是？", options: { A: "count_if 用于统计满足条件的元素个数", B: "count_if 只能统计所有元素的总和", C: "accumulate 不能设置初始值", D: "accumulate 定义在 <stack> 中" }, answer: "A", type: "single" },
+    { id: 124, title: "关于 STL 的说法，下列哪一项是正确的？", options: { A: "STL 是 C 语言标准库的一部分", B: "STL 与 C++ 标准库没有关系", C: "STL 通常被认为是 C++ 标准库中的一部分", D: "STL 只能用于字符串处理" }, answer: "C", type: "single" },
+    { id: 125, title: "在课堂内容中，STL 主要涉及下面哪几类库？", options: { A: "容器库、迭代器库、算法库", B: "图形库、网络库、数据库库", C: "文件库、线程库、图像库", D: "输入库、输出库、异常库" }, answer: "A", type: "single" },
+    { id: 126, title: "vector<int> 最接近下面哪种数据结构？", options: { A: "固定长度数组", B: "动态连续数组", C: "双链表", D: "哈希表" }, answer: "B", type: "single" },
+    { id: 127, title: "关于 vector 的元素访问，下列说法正确的是？", options: { A: "v[i] 会检查下标是否越界", B: "v.at(i) 会检查下标是否越界", C: "v.front() 返回最后一个元素", D: "v.back() 返回第一个元素" }, answer: "B", type: "single" },
+    { id: 128, title: "对于非空 vector<int> v，v.front() 返回的是？", options: { A: "第一个元素的引用", B: "最后一个元素的引用", C: "容器长度", D: "指向最后一个元素之后位置的迭代器" }, answer: "A", type: "single" },
+    { id: 129, title: "对于容器 c，c.end() 表示什么？", options: { A: "指向第一个元素", B: "指向最后一个元素", C: "指向最后一个元素的下一位置", D: "指向第一个元素的前一位置" }, answer: "C", type: "single" },
+    { id: 130, title: "对于容器 c，c.rbegin() 表示什么？", options: { A: "指向第一个元素", B: "指向最后一个元素", C: "指向最后一个元素的下一位置", D: "指向第一个元素的前一位置" }, answer: "B", type: "single" },
+    { id: 131, title: "下面哪种写法可以用 auto 自动推导迭代器类型？", options: { A: "auto it = v.begin();", B: "auto = v.begin();", C: "it auto = v.begin();", D: "v.begin() auto it;" }, answer: "A", type: "single" },
+    { id: 132, title: "关于 decltype(expr)，下列说法正确的是？", options: { A: "它用于输出表达式的值", B: "它用于从表达式得到类型", C: "它只能用于 int 类型", D: "它只能用于数组" }, answer: "B", type: "single" },
+    { id: 133, title: "C++ 标准容器大致可以分为哪几类？", options: { A: "顺序容器、关联容器、无序关联容器、容器适配器", B: "整数容器、浮点容器、字符容器、布尔容器", C: "输入容器、输出容器、错误容器、异常容器", D: "静态容器、动态容器、私有容器、公有容器" }, answer: "A", type: "single" },
+    { id: 134, title: "下列哪一个顺序容器是固定长度数组？", options: { A: "vector", B: "list", C: "deque", D: "array" }, answer: "D", type: "single" },
+    { id: 135, title: "关于 list 的说法，下列哪一项是正确的？", options: { A: "list 是动态连续数组", B: "list 是双链表", C: "list 支持下标随机访问", D: "list 只能在尾部插入元素" }, answer: "B", type: "single" },
+    { id: 136, title: "关于 deque 的说法，下列哪一项是正确的？", options: { A: "deque 适合在两端进行插入和删除", B: "deque 不允许存放重复元素", C: "deque 是固定长度容器", D: "deque 只能通过键访问元素" }, answer: "A", type: "single" },
+    { id: 137, title: "C<T> c(n, t); 的含义是？", options: { A: "创建一个空容器", B: "创建一个包含 n 个元素的容器，每个元素的值为 t", C: "创建一个包含 t 个元素的容器，每个元素的值为 n", D: "删除容器中的 n 个元素" }, answer: "B", type: "single" },
+    { id: 138, title: "顺序容器中的 c.insert(iter, t) 表示什么？", options: { A: "在 iter 所指元素之后插入 t", B: "在 iter 所指元素之前插入 t", C: "删除 iter 所指元素", D: "查找值为 t 的元素" }, answer: "B", type: "single" },
+    { id: 139, title: "顺序容器中的 c.erase(iter) 会删除什么？", options: { A: "删除容器中的所有元素", B: "删除容器中的第一个元素", C: "删除 iter 所指向的元素", D: "删除容器中的最后一个元素" }, answer: "C", type: "single" },
+    { id: 140, title: "关于区间 [b, e)，下列说法正确的是？", options: { A: "包括 b 指向的元素，也包括 e 指向的元素", B: "不包括 b 指向的元素，但包括 e 指向的元素", C: "包括 b 指向的元素，但不包括 e 指向的元素", D: "b 和 e 指向的元素都不包括" }, answer: "C", type: "single" },
+    { id: 141, title: "关于 map<K, T>，下列说法正确的是？", options: { A: "map 通过下标数字访问元素", B: "map 通过键 key 存取对应的值", C: "map 中不能存放字符串", D: "map 中所有键都可以重复出现" }, answer: "B", type: "single" },
+    { id: 142, title: "对于 std::pair<T1, T2> p，访问第一个元素和第二个元素应使用？", options: { A: "p.left 和 p.right", B: "p.key 和 p.value", C: "p.first 和 p.second", D: "p.begin() 和 p.end()" }, answer: "C", type: "single" },
+    { id: 143, title: "关于 set 的说法，下列哪一项是正确的？", options: { A: "set 中允许相同元素重复出现", B: "set 中每个元素本身就是关键字", C: "set 支持 operator[] 下标访问", D: "set 只能存放整数，不能存放字符串" }, answer: "B", type: "single" },
+    { id: 144, title: "关于泛型编程，下列说法正确的是哪一项？", options: { A: "泛型编程强调代码独立于具体数据类型，可以用相同代码处理不同类型的数据", B: "泛型编程只能用于处理 int 类型数据", C: "泛型编程只能通过继承和虚函数实现", D: "泛型编程要求程序运行时才生成所有代码" }, answer: "A", type: "single" },
+    { id: 145, title: "在 C++ 中，模板体现的多态性通常属于哪一种？", options: { A: "运行时多态", B: "编译时多态", C: "动态绑定多态", D: "只能通过虚函数实现的多态" }, answer: "B", type: "single" },
+    { id: 146, title: "关于模板实例化，下列说法正确的是哪一项？", options: { A: "模板实例化是指编译器根据模板实参生成具体函数或具体类代码的过程", B: "模板实例化只能由程序员手动完成，编译器不会自动完成", C: "模板实例化发生在程序运行过程中", D: "模板实例化只适用于类模板，不适用于函数模板" }, answer: "A", type: "single" },
+    { id: 147, title: "下列哪个函数模板的定义格式是正确的？", options: { A: "template <typename T>", B: "template T", C: "typename <T>", D: "template <>" }, answer: "A", type: "single" },
+    { id: 148, title: "对于如下函数模板：\ntemplate <typename T>\nvoid printValue(T value) {\ncout << value << endl;\n}\n​\n调用 printValue(10); 时，模板参数 T 会被推断为什么类型？", options: { A: "int", B: "double", C: "char", D: "string" }, answer: "A", type: "single" },
+    { id: 149, title: "对于如下函数模板：\ntemplate <typename T>\nvoid f(T a, T b) {\ncout << a << \" \" << b << endl;\n}\n​\n若只有这个函数模板存在，下列哪个调用能够正常通过模板实参推断？", options: { A: "f(3, 5);", B: "f(3, 5.5);", C: "f(3.2, 'a');", D: "f(\"hello\", 3);" }, answer: "A", type: "single" },
+    { id: 150, title: "阅读下面程序片段：\ntemplate <typename T>\nvoid Swap(T &a, T &b) {\nT temp = a;\na = b;\nb = temp;\n}\nint x = 3, y = 5;\nSwap(x, y);\ncout << x << \" \" << y;\n​\n程序输出结果是什么？", options: { A: "3 5", B: "5 3", C: "3 3", D: "5 5" }, answer: "B", type: "single" },
+    { id: 151, title: "关于函数模板调用时的隐式类型转换，下列说法正确的是哪一项？", options: { A: "函数模板实参推断时，一般不会为了推断模板参数而进行普通隐式类型转换", B: "函数模板总是优先把所有实参转换为 double", C: "函数模板只能接受完全相同的变量名", D: "函数模板不能处理基本数据类型" }, answer: "A", type: "single" },
+    { id: 152, title: "下列哪个写法表示对函数模板进行 int 类型的显式特化？", options: { A: "template <>", B: "template <typename int>", C: "template int", D: "special template" }, answer: "A", type: "single" },
+    { id: 153, title: "阅读下面程序片段：\ntemplate <typename T>\nvoid fun(T &a, T &b) {\nT temp = a;\na = b;\nb = temp;\n}\ntemplate <>\nvoid fun<int>(int &a, int &b) {\nint temp = a;\na = b;\nb = temp;\na += 10;\nb += 10;\n}\nint x = 1, y = 2;\nfun(x, y);\ncout << x << \" \" << y;\n​\n程序输出结果是什么？", options: { A: "2 1", B: "12 11", C: "11 12", D: "1 2" }, answer: "B", type: "single" },
+    { id: 154, title: "下面哪个选项体现了函数模板重载？", options: { A: "template <typename T>", B: "int x;", C: "class A {};", D: "int a[10];" }, answer: "A", type: "single" },
+    { id: 155, title: "阅读下面程序片段：\ntemplate <typename T>\nvoid demoPrint(const T a, const T b) {\ncout << \"template\";\n}\nvoid demoPrint(const double a, const double b) {\ncout << \"non-template\";\n}\ndemoPrint(2.0, 3.0);\n​\n程序输出结果是什么？", options: { A: "template", B: "non-template", C: "编译错误", D: "不输出任何内容" }, answer: "B", type: "single" },
+    { id: 156, title: "阅读下面程序片段：\ntemplate <typename T>\nvoid demoPrint(const T a, const T b) {\ncout << \"template\";\n}\nvoid demoPrint(const double a, const double b) {\ncout << \"non-template\";\n}\ndemoPrint(3, 4.5);\n​\n程序输出结果是什么？", options: { A: "template", B: "non-template", C: "template non-template", D: "一定编译错误" }, answer: "B", type: "single" },
+    { id: 157, title: "关于类模板，下列说法正确的是哪一项？", options: { A: "类模板是通用类模型，必须实例化后才能创建具体对象", B: "类模板本身就是一个普通对象", C: "类模板只能用于 int 类型", D: "类模板不能包含成员函数" }, answer: "A", type: "single" },
+    { id: 158, title: "若已经定义类模板：\ntemplate <typename T>\nclass Box {\npublic:\nBox(T v);\n};\n​\n下列哪个写法可以创建一个保存整数的 Box 对象？", options: { A: "Box<int> b(10);", B: "Box b<int>(10);", C: "template Box<int> b(10);", D: "Box(T) b(10);" }, answer: "A", type: "single" },
+    { id: 159, title: "对于如下类模板：\ntemplate <typename T>\nclass Box {\npublic:\nT getValue() const;\n};\n​\n如果在类外定义成员函数 getValue，下列写法正确的是哪一项？", options: { A: "template <typename T>", B: "T Box::getValue() const {", C: "template <typename T>", D: "Box<T>::T getValue() const {" }, answer: "A", type: "single" },
+    { id: 160, title: "关于模板的编译模型，下列说法正确的是哪一项？", options: { A: "模板进行实例化时，编译器通常需要能够看到模板定义的源代码", B: "模板只需要声明，永远不需要定义", C: "模板的定义必须只能写在 .cpp 文件中，不能写在头文件中", D: "模板不能放在头文件中" }, answer: "A", type: "single" },
+    { id: 161, title: "关于非类型模板形参，下列说法正确的是哪一项？", options: { A: "非类型模板形参可以表示模板内部使用的编译期常量", B: "非类型模板形参只能表示字符串", C: "非类型模板形参只能在运行时输入", D: "非类型模板形参和普通函数局部变量完全相同" }, answer: "A", type: "single" },
+    { id: 162, title: "阅读下面代码：\ntemplate <typename T, int N>\nclass FixedArray {\nprivate:\nT data[N];\n};\n​\n其中 N 的含义是什么？", options: { A: "非类型模板形参，表示数组大小", B: "类型模板形参，表示元素类型", C: "普通成员函数名", D: "普通对象名" }, answer: "A", type: "single" },
+    { id: 163, title: "对于如下函数模板：\ntemplate <typename T, int N>\nvoid printValues(T (&arr)[N]) {\nfor (int i = 0; i < N; ++i) {\ncout << arr[i] << endl;\n}\n}\n​\n下列说法正确的是哪一项？", options: { A: "参数 arr 是数组引用，N 可以由实参数组长度推断出来", B: "参数 arr 会退化为指针，因此无法知道数组长度", C: "该函数只能处理长度为 1 的数组", D: "该函数只能处理 int 数组" }, answer: "A", type: "single" },
+    { id: 164, title: "下列关于纯虚函数的声明，哪一个是正确的？", options: { A: "virtual void f();", B: "virtual void f() = 0;", C: "void virtual f() == 0;", D: "virtual void f() = NULL;" }, answer: "B", type: "single" },
+    { id: 165, title: "下列关于抽象类的说法，哪一项是正确的？", options: { A: "只要类中有构造函数，这个类就是抽象类", B: "只要类中有析构函数，这个类就是抽象类", C: "定义或继承了至少一个纯虚函数的类是抽象类", D: "只有不能被继承的类才是抽象类" }, answer: "C", type: "single" },
+    { id: 166, title: "阅读下面代码，判断哪一行会导致编译错误。\nclass Animal {\npublic:\nvirtual void eat() = 0;\n};\nclass Dog : public Animal {\npublic:\nvoid eat() override {}\n};\nint main() {\nAnimal a;      // ①\nAnimal* p;     // ②\nDog d;         // ③\nAnimal& r = d; // ④\n}\n​", options: { A: "①", B: "②", C: "③", D: "④" }, answer: "A", type: "single" },
+    { id: 167, title: "下列哪一种函数参数写法不适合作为抽象类 Shape 的形参？\nclass Shape {\npublic:\nvirtual void draw() = 0;\n};\n​", options: { A: "void f(Shape s);", B: "void f(Shape& s);", C: "void f(Shape* s);", D: "void f(const Shape& s);" }, answer: "A", type: "single" },
+    { id: 168, title: "阅读下面代码，Cat 是否可以被实例化？\nclass Animal {\npublic:\nvirtual void eat() = 0;\nvirtual void sleep() = 0;\n};\nclass Cat : public Animal {\npublic:\nvoid eat() override {}\n};\n​", options: { A: "可以，因为 Cat 已经继承了 Animal", B: "可以，因为 Cat 已经实现了一个纯虚函数", C: "不可以，因为 Cat 没有实现所有纯虚函数", D: "不可以，因为派生类永远不能被实例化" }, answer: "C", type: "single" },
+    { id: 169, title: "阅读下面代码，程序输出结果是什么？\n#include <iostream>\nusing namespace std;\nclass Animal {\npublic:\nvirtual void eat() const = 0;\n};\nclass Dog : public Animal {\npublic:\nvoid eat() const override {\ncout << \"Dog eats bones\" << endl;\n}\n};\nvoid feed(const Animal& a) {\na.eat();\n}\nint main() {\nDog d;\nfeed(d);\n}\n​", options: { A: "Dog eats bones", B: "Animal eats food", C: "编译错误，因为抽象类不能作为引用", D: "运行错误，因为调用了纯虚函数" }, answer: "A", type: "single" },
+    { id: 170, title: "下列哪一项最符合 C++ 中“接口类”的常见设计方式？", options: { A: "类中只包含普通数据成员，不包含函数", B: "类中主要包含纯虚函数，可以有虚析构函数和静态成员", C: "类中所有函数都必须是 static 函数", D: "类中所有成员都必须是 private" }, answer: "B", type: "single" },
+    { id: 171, title: "下面关于接口类中虚析构函数的作用，哪一项是正确的？", options: { A: "让派生类不能重写成员函数", B: "让对象不能被创建", C: "使得通过基类指针删除派生类对象时能正确调用析构函数", D: "使得所有成员函数都变成纯虚函数" }, answer: "C", type: "single" },
+    { id: 172, title: "阅读下面代码，程序输出结果是什么？\n#include <iostream>\nusing namespace std;\nclass Base {\npublic:\nvirtual void show() const {\ncout << \"Base\" << endl;\n}\n};\nclass Derived : public Base {\npublic:\nvoid show() const override {\ncout << \"Derived\" << endl;\n}\n};\nint main() {\nDerived d;\nBase* p = &d;\np->show();\n}\n​", options: { A: "Base", B: "Derived", C: "编译错误", D: "没有输出" }, answer: "B", type: "single" },
+    { id: 173, title: "阅读下面代码，程序输出结果是什么？\n#include <iostream>\nusing namespace std;\nclass Base {\npublic:\nvirtual void show() const {\ncout << \"Base\" << endl;\n}\n};\nclass Derived : public Base {\npublic:\nvoid show() const override {\ncout << \"Derived\" << endl;\n}\n};\nvoid print(Base b) {\nb.show();\n}\nint main() {\nDerived d;\nprint(d);\n}\n​", options: { A: "Base", B: "Derived", C: "编译错误，因为不能传值", D: "运行错误" }, answer: "A", type: "single" },
+    { id: 174, title: "如果一个包含虚函数的基类析构函数不是虚函数，通过基类指针 delete 派生类对象，最可能出现什么问题？", options: { A: "一定会调用两次派生类构造函数", B: "可能无法正确调用派生类析构函数，导致资源释放不完整", C: "所有虚函数都会变成普通函数", D: "程序一定无法编译" }, answer: "B", type: "single" },
+    { id: 175, title: "阅读下面代码，程序输出顺序是什么？\n#include <iostream>\nusing namespace std;\nclass Base {\npublic:\nvirtual ~Base() {\ncout << \"Base destroyed\" << endl;\n}\n};\nclass Derived : public Base {\npublic:\n~Derived() override {\ncout << \"Derived destroyed\" << endl;\n}\n};\nint main() {\nBase* p = new Derived;\ndelete p;\n}\n​", options: { A: "只输出 Base destroyed", B: "只输出 Derived destroyed", C: "先输出 Derived destroyed，再输出 Base destroyed", D: "先输出 Base destroyed，再输出 Derived destroyed" }, answer: "C", type: "single" },
+    { id: 176, title: "阅读下面代码，p 的值是什么？\nclass Animal {\npublic:\nvirtual ~Animal() {}\n};\nclass Dog : public Animal {};\nclass Cat : public Animal {};\nint main() {\nAnimal* a = new Dog;\nCat* p = dynamic_cast<Cat*>(a);\n}\n​", options: { A: "指向 Dog 对象的地址", B: "空指针", C: "随机地址", D: "编译错误，因为不能使用 dynamic_cast" }, answer: "B", type: "single" },
+    { id: 177, title: "当 dynamic_cast<Derived&>(baseRef) 的引用转换失败时，会发生什么？", options: { A: "返回 nullptr", B: "返回原引用", C: "抛出 std::bad_cast 异常", D: "自动创建一个 Derived 对象" }, answer: "C", type: "single" },
+    { id: 178, title: "关于下面代码中的转换，哪一项说法正确？\nclass Animal {\npublic:\nvirtual ~Animal() {}\n};\nclass Duck : public Animal {};\nclass Actor {\npublic:\nvirtual ~Actor() {}\n};\nclass DonaldDuck : public Duck, public Actor {};\nint main() {\nAnimal* a = new DonaldDuck;\nDuck* d = dynamic_cast<Duck*>(a);\nActor* actor = dynamic_cast<Actor*>(a);\n}\n​", options: { A: "Animal* 转 Duck* 是向上转换", B: "Animal* 转 Duck* 是向下转换，Animal* 转 Actor* 可看作侧向转换", C: "Animal* 不能转换为 Actor*", D: "所有 dynamic_cast 都只在编译期完成" }, answer: "B", type: "single" },
+    { id: 179, title: "使用 typeid 前，通常需要包含哪个头文件？", options: { A: "<iostream>", B: "<string>", C: "<typeinfo>", D: "<vector>" }, answer: "C", type: "single" },
+    { id: 180, title: "阅读下面代码，关于 typeid(*p) 的说法正确的是哪一项？\nclass Base {\npublic:\nvirtual ~Base() {}\n};\nclass Derived : public Base {};\nint main() {\nBase* p = new Derived;\ntypeid(*p);\n}\n​", options: { A: "因为 Base 是多态类型，typeid(*p) 可以反映对象的动态类型 Derived", B: "typeid(*p) 一定只能得到静态类型 Base", C: "typeid 不能用于指针解引用表达式", D: "代码一定编译错误" }, answer: "A", type: "single" },
+    { id: 181, title: "阅读下面代码，哪一行会导致编译错误？\nclass Base {\npublic:\nvirtual void foo();\n};\nclass A : public Base {\npublic:\nvoid foo() final;\n};\nclass B : public A {\npublic:\nvoid foo() override; // ①\n};\n​", options: { A: "① 会导致编译错误，因为 foo() 在 A 中已经被声明为 final", B: "① 正确，因为 override 可以覆盖任何函数", C: "final 只能修饰类，不能修饰函数", D: "final 会让 A 变成抽象类" }, answer: "A", type: "single" },
+    { id: 182, title: "在面向对象的菜单案例中，AbstractMenu、普通菜单项和菜单类之间最符合哪种关系？", options: { A: "普通菜单项和菜单类都可以看作一种 AbstractMenu", B: "只有菜单类可以继承 AbstractMenu，普通菜单项不能继承", C: "普通菜单项必须包含一个菜单类对象", D: "菜单类不能保存 AbstractMenu*" }, answer: "A", type: "single" },
+    { id: 183, title: "在简化菜单系统中，Menu::runOne(int index) 通过 AbstractMenu* 调用不同菜单项的 execute()，主要体现了什么思想？", options: { A: "函数重载", B: "多态", C: "模板特化", D: "宏替换" }, answer: "B", type: "single" },
+    { id: 184, title: "在 C++ 中，关于虚函数的说法正确的是？", options: { A: "虚函数只能是全局函数", B: "虚函数是使用 virtual 修饰的类成员函数", C: "虚函数不能被派生类重新定义", D: "虚函数只能在 main() 函数中调用" }, answer: "B", type: "single" },
+    { id: 185, title: "下列哪一组条件最能体现 C++ 运行时多态？", options: { A: "使用普通对象直接调用普通成员函数", B: "使用全局函数调用局部变量", C: "使用基类指针或引用调用虚函数，且实际对象为派生类对象", D: "使用 cout 输出字符串" }, answer: "C", type: "single" },
+    { id: 186, title: "如果基类中的某个成员函数被声明为 virtual，派生类中具有相同函数签名的函数会怎样？", options: { A: "不再是虚函数", B: "仍然是虚函数，即使不再写 virtual", C: "必须写 static 才能调用", D: "不能被调用" }, answer: "B", type: "single" },
+    { id: 187, title: "下列哪种情况属于覆盖 override？", options: { A: "基类函数是虚函数，派生类定义了同名、同参数列表的函数", B: "同一作用域中定义多个同名但参数不同的函数", C: "派生类定义了同名但参数不同的函数", D: "两个函数只有返回值类型不同" }, answer: "A", type: "single" },
+    { id: 188, title: "下面哪种情况最可能构成隐藏 overwrite？", options: { A: "同一作用域中函数名相同、参数不同", B: "基类函数是虚函数，派生类函数签名完全相同", C: "派生类函数与基类函数同名，但参数列表不同", D: "函数名和参数都不同" }, answer: "C", type: "single" },
+    { id: 189, title: "函数重载主要依靠什么来区分不同函数？", options: { A: "函数所在文件名", B: "函数返回值类型", C: "函数参数列表", D: "函数内部语句数量" }, answer: "C", type: "single" },
+    { id: 190, title: "关于重载、覆盖、隐藏的说法，正确的是？", options: { A: "重载发生在不同作用域，覆盖发生在相同作用域", B: "覆盖要求基类函数为虚函数", C: "隐藏要求函数名一定不同", D: "重载必须使用 virtual" }, answer: "B", type: "single" },
+    { id: 191, title: "阅读代码：\n#include <iostream>\nusing namespace std;\nclass Apple {};\nclass Banana {};\nvoid say(Apple fruit) {\ncout << \"apple\" << endl;\n}\nvoid say(Banana fruit) {\ncout << \"banana\" << endl;\n}\nint main() {\nApple a;\nBanana b;\nsay(a);\nsay(b);\nreturn 0;\n}\n​\n程序输出为？", options: { A: "apple", B: "banana", C: "apple", D: "编译错误" }, answer: "C", type: "single" },
+    { id: 192, title: "阅读代码：\n#include <iostream>\nusing namespace std;\nint abs(int x) {\ncout << \"int\" << endl;\nreturn x >= 0 ? x : -x;\n}\ndouble abs(double x) {\ncout << \"double\" << endl;\nreturn x >= 0.0 ? x : -x;\n}\nint main() {\nabs(-5);\nabs(3.14);\nreturn 0;\n}\n​\n程序输出为？", options: { A: "int", B: "double", C: "int", D: "double" }, answer: "C", type: "single" },
+    { id: 193, title: "下列两个函数能否构成函数重载？\nint f(int x);\ndouble f(int x);\n​", options: { A: "可以，因为返回值类型不同", B: "可以，因为函数名相同", C: "不可以，因为参数列表相同", D: "不可以，因为函数名不同" }, answer: "C", type: "single" },
+    { id: 194, title: "关于静态绑定，下列说法正确的是？", options: { A: "在程序运行时才确定调用哪个函数", B: "在编译阶段确定调用哪个函数", C: "只能用于虚函数", D: "只能用于模板" }, answer: "B", type: "single" },
+    { id: 195, title: "关于动态绑定，下列说法正确的是？", options: { A: "在编译阶段确定所有函数调用", B: "与虚函数无关", C: "在运行时根据对象实际类型决定调用哪个虚函数", D: "只能发生在全局函数中" }, answer: "C", type: "single" },
+    { id: 196, title: "阅读代码：\nstruct B {\nvirtual ~B() {}\n};\nstruct D : B {};", options: { A: "静态类型是 D，动态类型是 B", B: "静态类型是 B，动态类型也是 B", C: "静态类型是 B，动态类型是 D", D: "静态类型和动态类型都不存在" }, answer: "C", type: "single" },
+    { id: 197, title: "阅读代码：\n#include <iostream>\nusing namespace std;\nclass Fruit {\npublic:\nvoid say() {\ncout << \"fruit\" << endl;\n}\n};\nclass Apple : public Fruit {\npublic:\nvoid say() {\ncout << \"apple\" << endl;\n}\n};\nint main() {\nApple a;\nFruit *p = &a;\np->say();\nreturn 0;\n}\n​\n程序输出为？", options: { A: "fruit", B: "apple", C: "fruit apple", D: "编译错误" }, answer: "A", type: "single" },
+    { id: 198, title: "阅读代码：\n#include <iostream>\nusing namespace std;\nclass Fruit {\npublic:\nvirtual void say() {\ncout << \"fruit\" << endl;\n}\n};\nclass Apple : public Fruit {\npublic:\nvoid say() {\ncout << \"apple\" << endl;\n}\n};\nint main() {\nApple a;\nFruit *p = &a;\np->say();\nreturn 0;\n}\n​\n程序输出为？", options: { A: "fruit", B: "apple", C: "fruit apple", D: "编译错误" }, answer: "B", type: "single" },
+    { id: 199, title: "阅读代码：\n#include <iostream>\nusing namespace std;\nclass Fruit {\npublic:\nvoid say() {\ncout << \"fruit\" << endl;\n}\n};\nclass Apple : public Fruit {\npublic:\nvoid say() {\ncout << \"apple\" << endl;\n}\n};\nint main() {\nApple a;\na.say();\nreturn 0;\n}\n​\n程序输出为？", options: { A: "fruit", B: "apple", C: "fruit apple", D: "编译错误" }, answer: "B", type: "single" },
+    { id: 200, title: "阅读代码：\n#include <iostream>\nusing namespace std;\nclass Fruit {\npublic:\nvoid say() {\ncout << \"fruit\" << endl;\n}\n};\nclass Apple : public Fruit {\n};\nint main() {\nApple a;\na.say();\nreturn 0;\n}\n​\n程序输出为？", options: { A: "fruit", B: "apple", C: "无输出", D: "编译错误" }, answer: "A", type: "single" },
+    { id: 201, title: "阅读代码：\n#include <iostream>\nusing namespace std;\nclass Time {\npublic:\nvirtual void write() const {\ncout << \"Time\";\n}\n};\nclass ExtTime : public Time {\npublic:\nvoid write() const {\ncout << \"ExtTime\";\n}\n};\nvoid print(Time t) {\nt.write();\n}\nint main() {\nExtTime e;\nprint(e);\nreturn 0;\n}\n​\n程序输出为？", options: { A: "Time", B: "ExtTime", C: "TimeExtTime", D: "编译错误" }, answer: "A", type: "single" },
+    { id: 202, title: "阅读代码：\n#include <iostream>\nusing namespace std;\nclass Time {\npublic:\nvirtual void write() const {\ncout << \"Time\";\n}\n};\nclass ExtTime : public Time {\npublic:\nvoid write() const {\ncout << \"ExtTime\";\n}\n};\nvoid print(Time &t) {\nt.write();\n}\nint main() {\nExtTime e;\nprint(e);\nreturn 0;\n}\n​\n程序输出为？", options: { A: "Time", B: "ExtTime", C: "无输出", D: "编译错误" }, answer: "B", type: "single" },
+    { id: 203, title: "关于多态的实际意义，下列说法最准确的是？", options: { A: "多态只能减少代码行数，没有其他作用", B: "多态可以让程序通过统一接口处理不同类型对象，提高扩展性", C: "多态只能用于输出字符串", D: "多态要求所有类都不能有成员变量" }, answer: "B", type: "single" },
+    { id: 204, title: "下列哪类成员通常不会作为普通成员被派生类继承？", options: { A: "public 成员函数", B: "protected 数据成员", C: "构造函数和析构函数", D: "非静态普通成员函数" }, answer: "C", type: "single" },
+    { id: 205, title: "若基类 Base 没有默认构造函数，派生类 Derived 构造函数应如何初始化基类部分？", options: { A: "在构造函数体内写 Base(x);", B: "在初始化列表中写 Derived(...) : Base(x) { ... }", C: "不需要处理，编译器会自动选择任意构造函数", D: "在析构函数中初始化" }, answer: "B", type: "single" },
+    { id: 206, title: "创建派生类对象时，构造顺序通常是：", options: { A: "先构造基类子对象，再构造派生类新增部分", B: "先构造派生类新增部分，再构造基类子对象", C: "构造顺序由构造函数体中的语句决定", D: "只调用派生类构造函数，不调用基类构造函数" }, answer: "A", type: "single" },
+    { id: 207, title: "若 ExtTime::ExtTime() 没有显式写初始化列表，而基类 Time 有默认构造函数，则会发生什么？", options: { A: "不会调用任何基类构造函数", B: "一定编译失败", C: "编译器会默认调用 Time()", D: "会调用 Time(int,int,int)" }, answer: "C", type: "single" },
+    { id: 208, title: "Time 中有 Set(int,int,int)，ExtTime 中定义了 Set(int,int,int,ZoneType)。这两个函数的关系更准确地说是：", options: { A: "同一个类中的重载", B: "派生类成员隐藏了基类同名成员", C: "派生类自动删除了基类成员", D: "析构函数重载" }, answer: "B", type: "single" },
+    { id: 209, title: "在 ExtTime::Set(int,int,int,ZoneType) 内部调用基类三参数 Set 的正确写法是：", options: { A: "Set(hours, minutes, seconds);", B: "Time::Set(hours, minutes, seconds);", C: "this.Set(hours, minutes, seconds);", D: "Base.Set(hours, minutes, seconds);" }, answer: "B", type: "single" },
+    { id: 210, title: "若客户代码中有 ExtTime time1;，希望直接调用被隐藏的基类 Time::Set，正确写法是：", options: { A: "time1.Set(1,1,1);", B: "time1::Time::Set(1,1,1);", C: "time1.Time::Set(1,1,1);", D: "Time.time1.Set(1,1,1);" }, answer: "C", type: "single" },
+    { id: 211, title: "关于 C++ 中“重载”的说法，正确的是：", options: { A: "只要函数名相同就是重载", B: "通常要求函数位于同一作用域，函数名相同但参数列表不同", C: "只能发生在基类和派生类之间", D: "只和返回值类型有关" }, answer: "B", type: "single" },
+    { id: 212, title: "派生类中定义了与基类同名但参数列表不同的函数，通常会导致：", options: { A: "基类函数被自动重载到派生类作用域", B: "基类函数变成私有成员", C: "基类同名函数在派生类中被隐藏", D: "编译器自动生成虚函数" }, answer: "C", type: "single" },
+    { id: 213, title: "派生类定义了与基类同名、同参数列表的函数，但基类函数没有 virtual，根据本周内容应理解为：", options: { A: "动态多态覆盖", B: "派生类名字隐藏基类名字，并修改该函数语义", C: "函数模板特化", D: "构造函数继承" }, answer: "B", type: "single" },
+    { id: 214, title: "若派生类同时继承 Base，并含有一个 Base member; 成员对象，而 Base 没有默认构造函数，则派生类构造函数应：", options: { A: "只初始化继承来的基类子对象", B: "只初始化成员对象 member", C: "在函数体内给 member 赋值即可", D: "在初始化列表中分别初始化基类子对象和成员对象" }, answer: "D", type: "single" },
+    { id: 215, title: "派生类对象构造时，下列顺序正确的是：", options: { A: "基类子对象、成员对象、派生类构造函数体", B: "派生类构造函数体、基类子对象、成员对象", C: "成员对象、派生类构造函数体、基类子对象", D: "完全由初始化列表书写顺序决定" }, answer: "A", type: "single" },
+    { id: 216, title: "若 class D : private B，则 B 的 public 成员在 D 中通常变为：", options: { A: "public", B: "protected", C: "private", D: "不存在" }, answer: "C", type: "single" },
+    { id: 217, title: "在 class D : private B 中，如果在 public: 区域写 using B::set_i;，其作用是：", options: { A: "删除 set_i", B: "将继承来的 set_i 恢复为可由外部访问的公有接口", C: "把 set_i 改成构造函数", D: "复制一份新的数据成员" }, answer: "B", type: "single" },
+    { id: 218, title: "关于 using 基类名::成员名 改变访问控制，下列说法正确的是：", options: { A: "可以恢复基类 private 成员供派生类外部访问", B: "只能用于析构函数", C: "可以放在任意函数体内改变访问控制", D: "只能用于基类中本来可被派生类访问的成员" }, answer: "D", type: "single" },
+    { id: 219, title: "在派生类中写 using Base::Base; 的常见作用是：", options: { A: "使派生类可直接使用基类构造函数形式来构造对象", B: "删除基类构造函数", C: "把基类析构函数改成虚函数", D: "禁止创建派生类对象" }, answer: "A", type: "single" },
+    { id: 220, title: "关于“屏蔽基类成员”和“恢复访问控制”，下列说法正确的是：", options: { A: "二者完全无关", B: "只能通过 friend 实现", C: "可先用 private/protected 继承整体降低访问级别，再用 using 暴露少数成员", D: "使用 using 后所有基类成员都会变成 public" }, answer: "C", type: "single" },
+    { id: 221, title: "在 DERIVED : public BASE 中又声明了一个成员对象 BASE mem4;，下列说法正确的是：", options: { A: "mem4 和继承得到的基类子对象是同一个对象", B: "mem4 是额外的成员对象，与继承得到的基类子对象相互独立", C: "mem4 会覆盖整个派生类对象", D: "C++ 不允许派生类含有基类类型的成员对象" }, answer: "B", type: "single" },
+    { id: 222, title: "在图形示例中，contract(delta) 可以通过下列哪种方式复用已有逻辑？", options: { A: "expand(delta);", B: "move_to(delta, delta);", C: "expand(-delta);", D: "show(delta);" }, answer: "C", type: "single" },
+    { id: 223, title: "关于课件中的 Location -> Point -> Circle 图形继承示例，下列理解正确的是：", options: { A: "它证明所有图形设计都必须把圆继承自点", B: "它主要用于演示继承机制，课件也提示这种设计不一定是合理的图形建模", C: "它要求学生必须安装图形库才能理解继承", D: "它展示的是多重继承" }, answer: "B", type: "single" },
+    { id: 224, title: "关于下标运算符 operator[] 的重载，下列说法正确的是：", options: { A: "可以定义为普通全局函数", B: "可以定义为静态成员函数", C: "必须定义为成员函数", D: "只能定义为友元函数" }, answer: "C", type: "single" },
+    { id: 225, title: "已知类 T 中同时定义了：\nint& operator[](int);\nconst int& operator[](int) const;\n​\n若有 const T b;，表达式 b[0] 调用的是：", options: { A: "非 const 版本", B: "const 版本", C: "两个版本都会调用", D: "编译报错" }, answer: "B", type: "single" },
+    { id: 226, title: "若某个类只有下面这个成员函数：\nint& operator[](int);\n​\n但没有提供 const 版本。那么对于 const 对象，下列哪项是正确的？", options: { A: "仍可正常使用下标访问", B: "只能读，不能写", C: "不能通过下标访问元素", D: "会自动生成 const 版本" }, answer: "C", type: "single" },
+    { id: 227, title: "一个类如果重载了 operator()，则该类对象通常被称为：", options: { A: "迭代器对象", B: "函数对象", C: "友元对象", D: "抽象对象" }, answer: "B", type: "single" },
+    { id: 228, title: "考虑下面的函数对象：\nclass GreaterThan {\nint baseline;\npublic:\nGreaterThan(int x): baseline(x) {}\nbool operator()(const int& x) { return x > baseline; }\n};\n​\n若有：\nGreaterThan g1(10), g2(20);\n​\n则下面哪项正确？", options: { A: "g1(15) 和 g2(15) 的结果一定相同", B: "g1(15) 为 false，g2(15) 为 true", C: "g1(15) 为 true，g2(15) 为 false", D: "两者都会编译失败" }, answer: "C", type: "single" },
+    { id: 229, title: "关于标准库算法 find_if 的第三个参数，下列说法正确的是：", options: { A: "只能传普通函数", B: "只能传函数对象", C: "只能传 lambda", D: "只要是可调用对象并返回布尔值即可" }, answer: "D", type: "single" },
+    { id: 230, title: "设有类 Integer，其中定义了构造函数 Integer(int)，并在类外定义了：\nInteger operator+(const Integer& lhs, const Integer& rhs);\n​\n下面哪种写法因此能够成立？", options: { A: "只有 a + b", B: "只有 a + 4", C: "只有 5 + a", D: "a + 4 和 5 + a 都可以" }, answer: "D", type: "single" },
+    { id: 231, title: "用户自定义类型的输入输出运算符 >>、<< 常常定义为类外函数，最主要的原因是：", options: { A: "它们运行速度更快", B: "左操作数通常是流对象，而不是当前类对象", C: "成员函数不能返回引用", D: "成员函数不能访问私有成员" }, answer: "B", type: "single" },
+    { id: 232, title: "关于友元函数，下列说法正确的是：", options: { A: "友元函数属于该类的成员函数", B: "友元函数不是成员函数，但可以访问该类的私有成员", C: "友元函数只能在类内定义", D: "一个类最多只能有一个友元函数" }, answer: "B", type: "single" },
+    { id: 233, title: "若类 A 中写有：\n\nfriend class B;\n​\n则其含义是：", options: { A: "A 的所有成员函数都成为 B 的友元", B: "B 的所有成员函数都可以访问 A 的私有成员", C: "只有 B 的构造函数可以访问 A 的私有成员", D: "A 和 B 互为友元类" }, answer: "B", type: "single" },
+    { id: 234, title: "若类 Integer 定义了构造函数：\nInteger(int x = 0);\n​\n若函数声明为：\nvoid f(Integer);\n​\n则调用 f(3); 体现了哪种机制？", options: { A: "模板实例化", B: "由 int 到 Integer 的隐式类型转换", C: "将 3 绑定到 Integer&", D: "运行时多态" }, answer: "B", type: "single" },
+    { id: 235, title: "若类 Integer 只定义了：\nInteger(int x = 0);\nfriend Integer operator+(const Integer&, const Integer&);\n​\n则表达式：\ni2 = 1.1 + i1;\n​\n中左操作数 1.1 最终参与运算前会经历哪条转换路径？", options: { A: "double -> Integer", B: "double -> int -> Integer", C: "double -> const Integer&", D: "不发生任何转换" }, answer: "B", type: "single" },
+    { id: 236, title: "设有如下两个重载：\nfriend ostream& operator<<(ostream& o, const Integer& hs);\nfriend ostream& operator<<(ostream& o, Integer& hs);\n​\n若 i1 是普通对象，i2 是 const 对象，则下面哪项正确？", options: { A: "cout << i1 调用 const 版本，cout << i2 调用非 const 版本", B: "cout << i1 和 cout << i2 都调用 const 版本", C: "cout << i1 优先调用非 const 版本，cout << i2 调用 const 版本", D: "两者都会产生二义性" }, answer: "C", type: "single" },
+    { id: 237, title: "已知有两个重载：\nvoid kissGirlfriend(Girlfriend* gf);\nvoid kissGirlfriend(int gfID);\n​\n则下面哪项正确？", options: { A: "kissGirlfriend(nullptr) 调用 int 版本", B: "kissGirlfriend(0) 调用指针版本", C: "kissGirlfriend(nullptr) 更倾向匹配指针版本，而 kissGirlfriend(0) 更倾向匹配整型版本", D: "nullptr 和 0 在重载决议中完全等价" }, answer: "C", type: "single" },
+    { id: 238, title: "若类中有构造函数：\nexplicit Integer(const char* s);\n​\n则 explicit 的作用是：", options: { A: "禁止该构造函数被定义", B: "禁止该构造函数参与隐式类型转换", C: "使对象不能被输出", D: "使该类不能定义友元" }, answer: "B", type: "single" },
+    { id: 239, title: "已知有函数：\nbool compare(Integer a, Integer b);\n​\n若 Integer(const char* s) 被 explicit 修饰，则下面哪项说法正确？", options: { A: "Integer a(\"3\"); 不合法", B: "compare(\"1\", \"2\") 仍然可以自动把字符串转成 Integer", C: "compare(Integer(\"1\"), Integer(\"2\")) 是合法的", D: "Integer a = \"3\"; 是合法的" }, answer: "C", type: "single" },
+    { id: 240, title: "若要把“其他类的成员函数”声明为友元，例如：\nfriend bool Cmp::operator()(const Integer& a, const Integer& b);\n​\n则在写这条友元声明前，通常需要先做什么？", options: { A: "先定义 main 函数", B: "先把 Integer 定义成友元类", C: "先让 Cmp 及其成员函数声明可见", D: "先把 Integer 写成 struct" }, answer: "C", type: "single" },
+    { id: 241, title: "关于“友元成员函数”和“友元类”，下列说法正确的是：", options: { A: "二者效果完全相同", B: "友元类只开放一个成员函数，友元成员函数开放整个类", C: "友元成员函数只授权某一个函数访问私有成员，而友元类授权整个类的所有成员函数", D: "二者都只能用于 struct" }, answer: "C", type: "single" },
+    { id: 242, title: "若某个类中提供了下面两个版本：\nint& operator[](int);\nconst int& operator[](int) const;\n​\n则对一个非 const 对象 a 来说，编译器通常优先选择：", options: { A: "const 版本", B: "非 const 版本", C: "两者随机选择", D: "一定产生二义性" }, answer: "B", type: "single" },
+    { id: 243, title: "关于函数对象与普通函数的比较，下列说法正确的是：", options: { A: "函数对象一定比普通函数快", B: "普通函数可以天然保存对象状态", C: "函数对象既可以像函数一样调用，又可以保存内部状态", D: "函数对象不能作为 STL 算法参数" }, answer: "C", type: "single" },
+    { id: 244, title: "在 C++ 中，运算符重载的主要作用是：", options: { A: "为基本类型重新定义全部运算规则", B: "为用户自定义类型提供与内建类型相似的运算写法", C: "创建全新的运算符", D: "改变运算符的优先级" }, answer: "B", type: "single" },
+    { id: 245, title: "要重载加法运算符，其函数名应写为：", options: { A: "+operator", B: "operator+", C: "overload+", D: "plus" }, answer: "B", type: "single" },
+    { id: 246, title: "若采用成员函数方式重载一个二元运算符，则函数通常有几个显式参数？", options: { A: "0个", B: "1个", C: "2个", D: "3个" }, answer: "B", type: "single" },
+    { id: 247, title: "下列运算符中，不能被重载的是：", options: { A: "[]", B: "()", C: "::", D: "," }, answer: "C", type: "single" },
+    { id: 248, title: "当使用成员函数重载表达式 A + B时，左操作数A 对应的是：", options: { A: "函数的返回值", B: "当前调用该成员函数的对象", C: "右操作数 B 的别名", D: "一个临时对象" }, answer: "B", type: "single" },
+    { id: 249, title: "关于运算符重载的限制，下列说法正确的是：", options: { A: "可以改变优先级，但不能改变结合方向", B: "可以改变操作数个数，但不能改变优先级", C: "不能改变优先级、结合方向和操作数个数", D: "只要写成友元函数，就可以改变以上三项" }, answer: "C", type: "single" },
+    { id: 250, title: "若重载 operator->，其返回值应当满足的要求是：", options: { A: "必须返回 int", B: "必须返回 void*", C: "必须返回裸指针，或返回继续重载了 operator-> 的对象", D: "必须返回当前对象引用" }, answer: "C", type: "single" },
+    { id: 251, title: "对于某个自定义类型 T 的对象，前缀自增运算符 ++a ，通常更适合返回：", options: { A: "T&", B: "void", C: "bool", D: "T*" }, answer: "A", type: "single" },
+    { id: 252, title: "后缀自增运算符 a++ 通常更适合返回：", options: { A: "增后对象的引用", B: "增前对象的副本", C: "void", D: "当前对象的地址" }, answer: "B", type: "single" },
+    { id: 253, title: "若一个类中包含指针成员，而程序员没有自定义赋值运算符，则编译器默认赋值通常体现为：", options: { A: "深拷贝", B: "浅拷贝", C: "移动赋值", D: "引用折叠" }, answer: "B", type: "single" },
+    { id: 254, title: "当类成员中包含动态申请的资源时，通常更应采用哪种赋值策略？", options: { A: "浅拷贝", B: "深拷贝", C: "位运算赋值", D: "不允许赋值" }, answer: "B", type: "single" },
+    { id: 255, title: "对于含指针成员的类，浅拷贝最典型的风险是：", options: { A: "计算速度更慢", B: "对象体积变大", C: "多个对象共享同一资源，析构时可能重复释放", D: "所有成员都会自动初始化为 0" }, answer: "C", type: "single" },
+    { id: 256, title: "设有如下成员函数重载：\nclass Integer {\nint x;\npublic:\nInteger(int x = 0): x(x) {}\nInteger operator+(const Integer& rhs) {\nreturn Integer(x + rhs.x);\n}\nvoid print() { cout << x << endl; }\n};\n​\n若执行：\nInteger a = 3, b = 4;\nInteger c = a + b;\nc.print();\n​\n输出结果是：", options: { A: "3", B: "4", C: "7", D: "编译错误" }, answer: "C", type: "single" },
+    { id: 257, title: "设前缀自增重载如下：\nInteger& operator++() {\n++x;\nreturn *this;\n}\n​\n若初始 a.x == 3，执行 Integer b = ++a; 后，b 中保存的值通常为：", options: { A: "4", B: "3", C: "2", D: "不确定" }, answer: "A", type: "single" },
+    { id: 258, title: "设后缀自增重载如下：\nInteger operator++(int) {\nreturn Integer(x++);\n}\n​\n若初始 a.x == 3，执行 Integer b = a++; 后，b 中保存的值通常为：", options: { A: "2", B: "3", C: "4", D: "不确定" }, answer: "B", type: "single" },
+    { id: 259, title: "（多选）\n下列运算符中，可以重载的有：", options: { A: "+", B: "[]", C: ".", D: "++" }, answer: "ABD", type: "multi" },
+    { id: 260, title: "（多选）下列运算符中，不可以重载的有：", options: { A: "::", B: ".", C: ".*", D: "?:" }, answer: "ABCD", type: "multi" },
+    { id: 261, title: "（多选）关于成员函数方式重载运算符，下列说法正确的有：", options: { A: "重载一元运算符时，通常没有显式参数", B: "重载二元运算符时，通常只有右操作数作为显式参数", C: "左操作数通常由当前对象 *this 隐式提供", D: "重载二元运算符时，显式参数必须有两个" }, answer: "ABC", type: "multi" },
+    { id: 262, title: "（多选）关于运算符重载的限制，下列说法正确的有：", options: { A: "可以创建新的运算符", B: "不能改变运算符的优先级", C: "不能改变运算符的结合方向", D: "可以改变运算符的操作数个数" }, answer: "BC", type: "multi" },
+    { id: 263, title: "（多选）关于 += 运算符的常见实现方式，下列说法正确的有：", options: { A: "不可以直接修改当前对象内部状态", B: "也可以借助 operator+ 先求和，再赋值给当前对象", C: "一般会返回 *this", D: "其语义应尽量与内建 += 的用法保持一致" }, answer: "BCD", type: "multi" },
+    { id: 264, title: "关于 C/C++ 程序内存布局，下列说法正确的是", options: { A: "全局变量通常在栈区", B: "局部变量、函数参数、返回地址通常在栈区", C: "成员函数代码通常在堆区", D: "常量一定在堆区" }, answer: "B", type: "single" },
+    { id: 265, title: "关于类对象内存布局，下列说法正确的是", options: { A: "非静态成员变量存放在代码区", B: "静态成员变量存放在对象实例内部", C: "成员函数代码通常不随每个对象各存一份", D: "使用 new 创建对象时，对象和指针变量都在堆区" }, answer: "C", type: "single" },
+    { id: 266, title: "关于类的静态成员变量，下列说法正确的是", options: { A: "每个对象各自保存一份", B: "通常位于全局数据区", C: "一定在代码区", D: "只能用 new 创建" }, answer: "B", type: "single" },
+    { id: 267, title: "设 DATE *p = new DATE();，正确的是", options: { A: "p 指向的对象在栈区", B: "p 指针变量本身一定在堆区", C: "p 指向的对象在堆区，而指针变量通常在栈区", D: "对象和成员函数代码都复制到堆区" }, answer: "C", type: "single" },
+    { id: 268, title: "下列最符合常见拷贝构造函数声明形式的是", options: { A: "C(C obj);", B: "C(const C& obj);", C: "void C(const C& obj);", D: "C(C* obj);" }, answer: "B", type: "single" },
+    { id: 269, title: "拷贝构造函数的第一个参数通常写成引用类型，主要是为了", options: { A: "让函数返回引用", B: "避免形参按值传递再次触发拷贝", C: "让对象自动转到堆区", D: "使构造函数可以重载为析构函数" }, answer: "B", type: "single" },
+    { id: 270, title: "下列哪种情形会隐式调用拷贝构造函数", options: { A: "对象按值作为函数实参传递", B: "对象按引用作为函数实参传递", C: "使用指针访问对象成员", D: "调用普通成员函数" }, answer: "A", type: "single" },
+    { id: 271, title: "根据现代 gcc/g++ 的说明，对象“按值返回”时更合适的理解是", options: { A: "一定先构造临时对象，再拷贝给接收者", B: "一定会调用两次拷贝构造", C: "编译器可能做优化，使返回对象与局部对象直接关联", D: "按值返回对象在 C++ 中非法" }, answer: "C", type: "single" },
+    { id: 272, title: "当用户没有自定义拷贝构造函数时，缺省拷贝构造函数通常会", options: { A: "只复制静态成员", B: "按初始化顺序，对各基类和非静态成员逐成员复制", C: "自动把浅拷贝变成深拷贝", D: "只复制指针地址，不复制基础类型" }, answer: "B", type: "single" },
+    { id: 273, title: "对于“不含指针成员”的普通类，建议是", options: { A: "必须手写深拷贝构造函数", B: "一般可使用编译器合成的默认拷贝构造函数", C: "必须禁止拷贝", D: "必须只在堆上创建对象" }, answer: "B", type: "single" },
+    { id: 274, title: "一个含 char* str 的类只使用默认拷贝构造函数，最容易导致的问题是", options: { A: "成员函数不能调用", B: "两个对象共享同一段字符内存，析构时可能重复释放", C: "静态成员被错误初始化", D: "对象自动转为 const" }, answer: "B", type: "single" },
+    { id: 275, title: "在深拷贝赋值运算符 operator= 中，if (this == &other) return *this; 的主要作用是", options: { A: "防止重复包含头文件", B: "防止自身赋值时先释放自己资源再读自己数据", C: "提高输出速度", D: "让对象变成 const" }, answer: "B", type: "single" },
+    { id: 276, title: "关于 const 引用，下列说法正确的是", options: { A: "const int& 不能绑定字面量", B: "const int& 可以绑定右值", C: "int& 与 const int& 对临时对象的约束完全一样", D: "const 引用必须绑定堆对象" }, answer: "B", type: "single" },
+    { id: 277, title: "关于 const 成员函数，下列说法正确的是", options: { A: "const 成员函数可以随意修改普通非静态成员", B: "const 成员函数不能调用任何成员函数", C: "const 成员函数通常不能修改普通非静态成员变量", D: "const 成员函数不能读取 const 数据成员" }, answer: "C", type: "single" },
+    { id: 278, title: "在 C++11 中，把某个特殊成员函数写成 =delete，其作用是", options: { A: "显式禁止该函数被调用或使用", B: "强制编译器生成函数体", C: "表示函数定义在其他文件", D: "让函数自动变成内联" }, answer: "A", type: "single" },
+    { id: 279, title: "（多选）对含指针成员的类，如果只做浅拷贝，可能出现哪些问题", options: { A: "一定能自动转为深拷贝", B: "多个对象指向同一块堆内存", C: "一个对象析构后，另一个对象中的指针悬空", D: "可能发生重复释放" }, answer: "BCD", type: "multi" },
+    { id: 280, title: "（多选）已知\nvoid f(const string& s)\nstring x = \"abc\";\nstring& r = x;\n​\n，下列调用中能传给 f 的有", options: { A: "f(x);", B: "f(\"abc\");", C: "f(string(\"abc\"));", D: "f(r);" }, answer: "ABCD", type: "multi" },
+    { id: 281, title: "（多选）已知\nvoid g(string& s);\nstring x = \"abc\";\nconst string cx = \"abc\";，\n​\n下列调用中不能传给 g 的有:", options: { A: "g(x);", B: "g(\"abc\");", C: "g(string(\"abc\"));", D: "g(cx);" }, answer: "BCD", type: "multi" },
+    { id: 282, title: "（多选）关于 delete 与 delete[]，哪些说法正确", options: { A: "delete 用于释放 new 创建的单个对象", B: "delete[] 用于释放 new[] 创建的数组", C: "二者混用可能导致未定义行为或不可预期结果", D: "删除类对象时会先调用析构函数，再释放内存" }, answer: "ABCD", type: "multi" },
+    { id: 283, title: "（多选）关于赋值运算符 operator=，哪些说法正确", options: { A: "它只能重载为类的成员函数", B: "默认赋值对指针成员通常只是复制地址", C: "如果类管理堆资源，往往要自定义它", D: "一个类即使定义了拷贝构造，也仍可能需要自定义赋值运算符" }, answer: "ABCD", type: "multi" },
+    { id: 284, title: "关于程序内存布局，下列说法正确的是", options: { A: "函数参数通常存放在堆", B: "自动变量通常存放在栈", C: "动态分配对象通常存放在代码区", D: "字符串字面量通常存放在栈" }, answer: "B", type: "single" },
+    { id: 285, title: "执行 char *s1 = \"Literal\"; 后，下列说法正确的是", options: { A: "可以安全执行 s1[0] = 'I';", B: "s1 指向的是可修改数组", C: "s1 指向字符串字面量，不应修改其内容", D: "s1 一定在堆上" }, answer: "C", type: "single" },
+    { id: 286, title: "表达式 new int 的返回值类型是", options: { A: "void*", B: "int", C: "int*", D: "int&" }, answer: "C", type: "single" },
+    { id: 287, title: "关于 new 的说法正确的是", options: { A: "只分配空间，不做初始化", B: "分配失败返回 NULL", C: "对类类型对象会分配空间并调用构造函数", D: "只能用于基本类型" }, answer: "C", type: "single" },
+    { id: 288, title: "已执行 int* p = new int[10];，正确的释放方式是", options: { A: "free(p)", B: "delete p", C: "delete[] p", D: "remove(p)" }, answer: "C", type: "single" },
+    { id: 289, title: "关于栈上对象与堆上对象，下列说法正确的是", options: { A: "栈上对象必须手动 delete", B: "堆上对象离开作用域会自动析构", C: "栈上对象离开作用域通常会自动析构", D: "二者都必须手动释放" }, answer: "C", type: "single" },
+    { id: 290, title: "若 Text* p = &obj;，访问成员函数 Print() 的正确写法是", options: { A: "p.Print()", B: "*p.Print()", C: "p->Print()", D: "p::Print()" }, answer: "C", type: "single" },
+    { id: 291, title: "下列哪种情况最容易产生野指针问题", options: { A: "两个指针指向同一动态对象，其中一个 delete 后另一个继续使用", B: "指针只读不写", C: "指针只在定义时赋值一次", D: "使用栈对象" }, answer: "A", type: "single" },
+    { id: 292, title: "下列代码最直接导致内存泄漏的是", options: { A: "int* p = new int(7); delete p;", B: "int* p = new int(7); p = nullptr;", C: "int x = 7; int* p = &x;", D: "int* p = nullptr;" }, answer: "B", type: "single" },
+    { id: 293, title: "=default 主要用于", options: { A: "删除一个成员函数", B: "请求编译器生成默认实现的特殊成员函数", C: "强制函数变为虚函数", D: "申请动态内存" }, answer: "B", type: "single" },
+    { id: 294, title: "下列哪一个写法是合法的 =default 用法", options: { A: "int func() = default;", B: "A(int,int) = default;", C: "A() = default;", D: "A(int=0) = default;" }, answer: "C", type: "single" },
+    { id: 295, title: "关于删除函数，下列说法正确的是", options: { A: "可以先声明，稍后在类外第一次定义为 =delete", B: "=delete 定义必须是该函数的首次声明", C: "删除函数只能用于析构函数", D: "删除函数只能用于 private 成员" }, answer: "B", type: "single" },
+    { id: 296, title: "下列哪一种成员通常必须放在成员初始化器列表中初始化", options: { A: "普通 int 局部变量", B: "const 成员", C: "静态成员函数", D: "普通全局变量" }, answer: "B", type: "single" },
+    { id: 297, title: "关于成员初始化顺序，下列说法正确的是", options: { A: "按成员在初始化器列表中的书写顺序", B: "按成员在类中声明的顺序", C: "先执行构造函数体，再初始化成员", D: "顺序由编译器随机决定" }, answer: "B", type: "single" },
+    { id: 298, title: "（多选）关于 delete / delete[]，正确的是", options: { A: "delete 用于释放单个对象", B: "delete[] 用于释放 new[] 创建的数组", C: "用 delete 释放 new[] 得到的指针是不正确的", D: "执行 delete 后指针会自动变成 nullptr" }, answer: "ABC", type: "multi" },
+    { id: 299, title: "（多选）下列行为可能导致野指针或重复释放问题的是", options: { A: "两个指针指向同一块动态内存，其中一个 delete 后另一个继续用", B: "delete 后再次解引用同一指针", C: "delete 后再次 delete 同一地址", D: "把栈对象取地址后正常在作用域内使用" }, answer: "ABC", type: "multi" },
+    { id: 300, title: "（多选）关于成员初始化器列表，正确的是", options: { A: "写在构造函数参数列表与函数体之间", B: "以冒号开头", C: "可用逗号分隔多个成员初始化器", D: "可以用于初始化基类和成员" }, answer: "ABCD", type: "multi" },
+    { id: 301, title: "（多选）下列成员在很多情况下必须用成员初始化器列表初始化的是", options: { A: "普通已定义局部变量", B: "没有无参构造函数的类类型成员", C: "const 成员", D: "引用成员" }, answer: "BCD", type: "multi" },
+    { id: 302, title: "（多选）关于 nullptr，正确的是", options: { A: "是 C++11 引入的空指针常量", B: "类型是 std::nullptr_t", C: "比 NULL 或 0 更安全，尤其在重载或模板推导场景", D: "可以转换为任意原始指针类型" }, answer: "ABCD", type: "multi" },
+    { id: 303, title: "（多选）下列情况可能导致内存泄漏的是", options: { A: "new 后直接把指针改为 nullptr", B: "delete 后把指针置 nullptr", C: "new 后函数结束前没 delete", D: "new 后中途异常退出，没来得及 delete" }, answer: "ACD", type: "multi" },
+    { id: 304, title: "下列关于构造函数的描述正确的是?", options: { A: "构造函数可以声明返回类型", B: "构造函数不可以用private修饰", C: "构造函数必须与类名相同", D: "构造函数不能带参数" }, answer: "C", type: "single" },
+    { id: 305, title: "假设有一个C++类名为Thunder，则此类的析构函数为（）。", options: { A: "::Thunder()", B: "void \\~Thunder(void)", C: "~Thunder()", D: "void ~Thunder()" }, answer: "C", type: "single" },
+    { id: 306, title: "（多选）关于static用途说法正确的是？", options: { A: "声明静态外部类", B: "声明静态全局变量", C: "声明静态函数", D: "声明静态局部变量" }, answer: "BCD", type: "multi" },
+    { id: 307, title: "（多选）下面有关static类变量和实例变量的描述，正确的有？", options: { A: "static类变量又叫静态成员变量，它不需要创建对象就可以已经在内存中存在了", B: "在创建实例对象的时候，内存中会为每一个实例对象的每一个非静态成员变量开辟一段内存空间，用来存储这个对象所有的非静态成员变量值", C: "static类变量是所有对象共有，其中一个对象将它值改变，其他对象得到的就是改变后的结果", D: "实例变量则属对象私有，某一个对象将其值改变，不影响其他对象" }, answer: "ABCD", type: "multi" },
+    { id: 308, title: ".h头文件中的ifndef/define/endif 的作用？", options: { A: "防止重复定义", B: "规范化代码", C: "标志被引用文件内容中可以被共享的代码", D: "以上都不正确" }, answer: "A", type: "single" },
+    { id: 309, title: "以下代码有什么问题？\nstruct Test\n{\nTest(int) {}\nTest() {}\nvoid fun() {}\n};\nvoid main(void)\n{\nTest a(1);\na.fun();\nTest b();\nb.fun();\n}\n​", options: { A: "b.fun()会出错", B: "Test结构的定义中应该加上public修饰符，这样才能main函数中调用改类的方法", C: "Test(int){} 应该改成Test(int a){}", D: "以上说法都不正确" }, answer: "A", type: "single" },
+    { id: 310, title: "（多选）若定义了类\nclass Line {\npublic:\nLine() {}\n};\n​\n则下面哪句会调用构造函数？", options: { A: "Line;", B: "Line line;", C: "line.Line();", D: "new Line;" }, answer: "BD", type: "multi" },
+    { id: 311, title: "下面关于 this 指针的说法，正确的是", options: { A: "每个普通成员函数都可以使用 this", B: "所有普通函数都能使用 this", C: "静态成员函数可以直接使用 this", D: "类外定义的普通函数也可以直接使用 this" }, answer: "A", type: "single" },
+    { id: 312, title: "关于静态数据成员，下列说法正确的是", options: { A: "每个对象各有一份", B: "是整个类所有对象共享的", C: "只能在构造函数里初始化", D: "不能被类名访问" }, answer: "B", type: "single" },
+    { id: 313, title: "下面哪种设计更符合封装思想？", options: { A: "把所有数据成员都设为 public", B: "把数据成员设为 private，通过 public 成员函数访问", C: "把所有成员都设为 private，外部完全不能用", D: "不定义类，只定义结构体变量" }, answer: "B", type: "single" },
+    { id: 314, title: "（多选）关于 this 指针，正确的有", options: { A: "this 用来指向当前调用成员函数的对象", B: "静态成员函数没有 this", C: "友元函数不是成员函数，因此没有 this", D: "当成员函数形参与数据成员同名时，可用 this->成员名 区分" }, answer: "ABCD", type: "multi" },
+    { id: 315, title: "（多选）关于静态成员，正确的有", options: { A: "静态数据成员属于整个类", B: "静态成员函数不属于某个具体对象", C: "静态成员函数可直接访问非静态数据成员", D: "静态数据成员通常需要在类外再定义一次" }, answer: "ABD", type: "multi" },
+    { id: 316, title: "（多选）下面哪些写法体现了“对象创建时自动调用构造函数”？", options: { A: "DATE d1;", B: "DATE d2(2024, 3, 1);", C: "d1.DATE();", D: "DATE();" }, answer: "AB", type: "multi" },
+    { id: 317, title: "已知类声明如下：\nclass DATE {\npublic:\nvoid Set(int y, int m, int d);\n};\n​\n在类外定义成员函数Set时，以下写法正确的是", options: { A: "void Set(int y, int m, int d) { }", B: "void DATE.Set(int y, int m, int d) { }", C: "void DATE::Set(int y, int m, int d) { }", D: "DATE::void Set(int y, int m, int d) { }" }, answer: "C", type: "single" },
+    { id: 318, title: "阅读下面代码：\nclass Box {\nprivate:\ndouble width;\npublic:\nvoid setWidth(double width) {\nwidth = width;\n}\n};\n​\n关于这段代码，下列说法正确的是", options: { A: "这段代码能正确把形参赋给数据成员", B: "应改成 this->width = width;", C: "应改成 Box->width = width;", D: "应改成 width = this;" }, answer: "B", type: "single" },
+    { id: 319, title: "阅读下面代码：\n#include\nusing namespace std;\nclass Counter {\npublic:\nstatic int cnt;\n};\nint Counter::cnt = 3;\nint main() {\ncout << Counter::cnt << endl;\nreturn 0;\n}\n​\n程序输出是", options: { A: "0", B: "1", C: "3", D: "编译错误" }, answer: "C", type: "single" },
+    { id: 320, title: "关于静态成员函数，下列说法正确的是", options: { A: "必须通过对象来调用，不能通过类名调用", B: "可以直接访问所有非静态数据成员", C: "没有 this 指针", D: "每个对象各有一份静态成员函数" }, answer: "C", type: "single" },
+    { id: 321, title: "阅读代码：\nclass Student {\nprivate:\nint id;\npublic:\nvoid setId(int x) { id = x; }\n};\nint main() {\nStudent s;\ns.id = 1001;\nreturn 0;\n}\n​\n以下说法正确的是", options: { A: "Student s; 写法错误", B: "id 是私有成员，不能在类外直接访问", C: "setId 函数不能写在类内", D: "private 和 public 位置写反了" }, answer: "B", type: "single" },
+    { id: 322, title: "class Box {\nprivate:\nint len;\npublic:\nvoid setLen(int len) {\nthis->len = len;\n}\n};\n​\n关于这段代码，下列说法正确的是", options: { A: "this->len = len; 是错误写法", B: "this 指向形参 len", C: "这样写可以区分数据成员和同名形参", D: "this 只能在 main 函数中使用" }, answer: "C", type: "single" },
+    { id: 323, title: "下面关于类外定义成员函数的写法，正确的有", options: { A: "class A {", B: "class A {", C: "class A {", D: "class A {" }, answer: "AD", type: "multi" },
+    { id: 324, title: "在面向对象设计中，继承最常用于表示哪种关系？", options: { A: "has-a 组合关系", B: "is-a 从属关系", C: "friend 友元关系", D: "uses-a 临时调用关系" }, answer: "B", type: "single" },
+    { id: 325, title: "若 Dog 公有继承 Animal，正确的类定义写法是：", options: { A: "class Dog public Animal { };", B: "class Dog : public Animal { };", C: "class Dog extends Animal { };", D: "class Dog -> Animal { };" }, answer: "B", type: "single" },
+    { id: 326, title: "在 class D : B { }; 中，如果没有写继承访问控制，则默认继承方式是：", options: { A: "public", B: "protected", C: "private", D: "由基类决定" }, answer: "C", type: "single" },
+    { id: 327, title: "关于 protected 成员，下列说法正确的是：", options: { A: "类外普通函数可以直接访问", B: "派生类成员函数可以访问", C: "只能构造函数访问", D: "与 public 完全相同" }, answer: "B", type: "single" },
+    { id: 328, title: "无论采用哪种继承方式，基类的 private 成员在派生类中通常是：", options: { A: "公有成员", B: "受保护成员", C: "可直接访问成员", D: "不可访问成员，派生类成员函数也不能访问该成员本身" }, answer: "D", type: "single" },
+    { id: 329, title: "若 class D : public B，且 B 中有 public 成员函数 f()，则 f() 在 D 中的继承访问级别通常是：", options: { A: "仍为 public", B: "变为 protected", C: "变为 private", D: "被删除" }, answer: "A", type: "single" },
+    { id: 330, title: "若 class D : protected B，则 B 的 public 成员在 D 中会变成：", options: { A: "public", B: "protected", C: "private", D: "不可访问" }, answer: "B", type: "single" },
+    { id: 331, title: "若 class D : private B，则 B 的 public 成员在 D 中会变成：", options: { A: "public", B: "protected", C: "private", D: "仍由外部直接访问" }, answer: "C", type: "single" },
+    { id: 332, title: "关于基类构造函数，下列说法正确的是：", options: { A: "基类构造函数会被派生类继承为普通成员函数", B: "派生类不需要声明自己的构造函数", C: "基类构造函数不被继承，但创建派生类对象时会先调用基类构造函数", D: "基类构造函数总是在派生类构造函数之后调用" }, answer: "C", type: "single" },
+    { id: 333, title: "若基类 Base 没有默认构造函数，而派生类 Derived 需要构造基类部分，则正确做法是：", options: { A: "在 Derived 构造函数体内写 Base(x);", B: "在 Derived 构造函数初始化列表中写 Base(x)", C: "让编译器自动生成 Base(x)", D: "在析构函数中调用 Base(x)" }, answer: "B", type: "single" },
+    { id: 334, title: "创建派生类对象时，构造函数调用顺序通常是：", options: { A: "派生类构造函数、成员对象构造函数、基类构造函数", B: "基类构造函数、成员对象构造函数、派生类构造函数", C: "成员对象构造函数、派生类构造函数、基类构造函数", D: "顺序不确定" }, answer: "B", type: "single" },
+    { id: 335, title: "销毁派生类对象时，析构函数调用顺序通常是：", options: { A: "基类析构、成员对象析构、派生类析构", B: "派生类析构、成员对象析构、基类析构", C: "成员对象析构、基类析构、派生类析构", D: "与构造顺序完全相同" }, answer: "B", type: "single" },
+    { id: 336, title: "类中有两个成员对象 a、b，它们的构造顺序取决于：", options: { A: "初始化列表中的书写顺序", B: "成员在类中声明的顺序", C: "成员变量名的字典序", D: "编译器随机选择" }, answer: "B", type: "single" },
+    { id: 337, title: "若有 class D : public B1, public B2，创建 D 对象时两个基类的构造顺序是：", options: { A: "先 B1 后 B2", B: "先 B2 后 B1", C: "按初始化列表顺序", D: "按析构函数定义顺序" }, answer: "A", type: "single" },
+    { id: 338, title: "关于派生类对象的存储模型，下列说法最合理的是：", options: { A: "派生类对象中包含基类子对象", B: "派生类对象只保存新增成员，不保存基类部分", C: "基类成员总是在派生类新增成员之后构造", D: "派生类对象不能访问任何基类成员函数" }, answer: "A", type: "single" },
+    { id: 339, title: "若基类 B 中有一个 protected 成员 x，并且派生类定义为：\nclass D : protected B { };\n​\n则 x 在 D 中的继承访问级别通常是：", options: { A: "public", B: "protected", C: "private", D: "不可访问" }, answer: "B", type: "single" },
+    { id: 340, title: "若基类 B 中有一个 protected 成员 x，并且派生类定义为：\nclass D : private B { };\n​\n则 x 在 D 中的继承访问级别通常是：", options: { A: "public", B: "protected", C: "private", D: "不可访问" }, answer: "C", type: "single" },
+    { id: 341, title: "在派生类构造函数体内写 Base(x);，它通常表示：", options: { A: "初始化当前对象的基类子对象", B: "构造一个临时 Base 对象", C: "调用派生类析构函数", D: "修改继承方式" }, answer: "B", type: "single" },
+    { id: 342, title: "关于“直接派生类”和“间接派生类”，下列说法正确的是：", options: { A: "只有直接派生类能继承基类成员，间接派生类不能继承", B: "间接派生类也可能通过继承链获得基类成员", C: "间接派生类一定不是类", D: "直接派生类不能再作为基类" }, answer: "B", type: "single" },
+    { id: 343, title: "关于多重继承，下列说法正确的是：", options: { A: "一个派生类只能有一个直接基类", B: "一个派生类可以有两个或以上直接基类", C: "多重继承只能用于 struct", D: "多重继承中基类构造函数不会被调用" }, answer: "B", type: "single" }
+];
+
 // ==================== 数据管理 ====================
 const STORAGE_KEY = 'quiz_bank_questions';
 
@@ -809,23 +1392,9 @@ function saveQuestions(questions) {
 }
 
 function getDefaultQuestions() {
-    return [
-        { id: 1, title: 'HTTP 协议默认使用哪个端口？', options: { A: '21', B: '80', C: '443', D: '8080' }, answer: 'B' },
-        { id: 2, title: '在 HTML 中，哪个标签用于定义最重要的标题？', options: { A: '<head>', B: '<h6>', C: '<h1>', D: '<title>' }, answer: 'C' },
-        { id: 3, title: 'CSS 中，哪个属性用于设置背景颜色？', options: { A: 'color', B: 'bgcolor', C: 'background-color', D: 'font-color' }, answer: 'C' },
-        { id: 4, title: 'JavaScript 中，typeof null 的结果是什么？', options: { A: '"null"', B: '"undefined"', C: '"object"', D: '"string"' }, answer: 'C' },
-        { id: 5, title: 'TCP 三次握手中，客户端首先发送什么报文？', options: { A: 'ACK', B: 'SYN', C: 'FIN', D: 'RST' }, answer: 'B' },
-        { id: 6, title: '以下哪个是 NoSQL 数据库？', options: { A: 'MySQL', B: 'PostgreSQL', C: 'MongoDB', D: 'SQLite' }, answer: 'C' },
-        { id: 7, title: 'Git 中，将暂存区的修改提交到本地仓库使用什么命令？', options: { A: 'git push', B: 'git add', C: 'git commit', D: 'git merge' }, answer: 'C' },
-        { id: 8, title: 'Linux 中，哪个命令用于列出目录内容？', options: { A: 'dir', B: 'ls', C: 'pwd', D: 'cd' }, answer: 'B' },
-        { id: 9, title: '在 Python 中，哪个关键字用于定义函数？', options: { A: 'func', B: 'define', C: 'def', D: 'function' }, answer: 'C' },
-        { id: 10, title: 'CPU 的中文名称是什么？', options: { A: '内存', B: '中央处理器', C: '硬盘', D: '显卡' }, answer: 'B' },
-        { id: 11, title: 'IPv4 地址由多少位二进制组成？', options: { A: '16位', B: '32位', C: '64位', D: '128位' }, answer: 'B' },
-        { id: 12, title: 'CSS 中，Flexbox 布局中 justify-content 属性用于控制什么？', options: { A: '垂直对齐', B: '水平对齐', C: '元素顺序', D: '换行方式' }, answer: 'B' },
-        { id: 13, title: 'RESTful API 中，GET 请求通常用于什么操作？', options: { A: '创建资源', B: '更新资源', C: '删除资源', D: '获取资源' }, answer: 'D' },
-        { id: 14, title: '以下哪些属于 JavaScript 的基本数据类型？', options: { A: 'string', B: 'boolean', C: 'array', D: 'undefined' }, answer: 'ABD', type: 'multi' },
-        { id: 15, title: 'Docker 中，将容器打包为镜像使用什么命令？', options: { A: 'docker run', B: 'docker build', C: 'docker commit', D: 'docker save' }, answer: 'C' },
-    ];
+    // 题库：程序设计II（25级 陈武辉 软件工程学院）
+    // 共 340 道 C++ 选择题
+    return JSON.parse(JSON.stringify(DEFAULT_QUESTIONS));
 }
 
 // Migrate old questions that don't have a 'type' field
@@ -858,6 +1427,9 @@ let nextId = (function() {
     return qs.length > 0 ? Math.max(...qs.map(q => q.id)) + 1 : 1;
 })();
 
+const BANK_PAGE_SIZE = 20;
+let bankPage = 1;
+
 // ==================== Toast ====================
 function showToast(msg) {
     const container = document.getElementById('toastContainer');
@@ -873,14 +1445,35 @@ function switchTab(tab) {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
 
+    const btn = document.querySelector('.tab-btn[data-tab="' + tab + '"]');
+    if (btn) btn.classList.add('active');
+
     if (tab === 'bank') {
-        document.querySelector('.tab-btn:first-child').classList.add('active');
         document.getElementById('panel-bank').classList.add('active');
+        bankPage = 1;
         refreshBank();
-    } else {
-        document.querySelector('.tab-btn:last-child').classList.add('active');
+    } else if (tab === 'practice') {
         document.getElementById('panel-practice').classList.add('active');
         refreshPracticeInfo();
+    } else if (tab === 'wrongbook') {
+        document.getElementById('panel-wrongbook').classList.add('active');
+        renderWrongBook();
+    }
+}
+
+let questionListOpen = false;
+function toggleQuestionList() {
+    const panel = document.getElementById('questionListPanel');
+    const arrow = document.getElementById('bannerArrow');
+    questionListOpen = !questionListOpen;
+    if (questionListOpen) {
+        panel.classList.remove('hidden');
+        arrow.style.transform = 'rotate(90deg)';
+        refreshBank();
+        setTimeout(() => panel.scrollIntoView({ behavior: 'smooth' }), 50);
+    } else {
+        panel.classList.add('hidden');
+        arrow.style.transform = 'rotate(0deg)';
     }
 }
 
@@ -933,6 +1526,7 @@ function addQuestion(e) {
     document.getElementById('isMultiSelect').checked = false;
     toggleAnswerInput();
     showToast('✅ 题目已添加');
+    bankPage = 1;
     refreshBank();
 }
 
@@ -942,6 +1536,7 @@ function deleteQuestion(id) {
     questions = questions.filter(q => q.id !== id);
     saveQuestions(questions);
     showToast('🗑️ 题目已删除');
+    bankPage = 1;
     refreshBank();
 }
 
@@ -952,6 +1547,7 @@ function clearAllQuestions() {
     saveQuestions([]);
     nextId = 1;
     showToast('🗑️ 题库已清空');
+    bankPage = 1;
     refreshBank();
 }
 
@@ -1041,6 +1637,7 @@ function importQuestions(event) {
             const finalQuestions = action ? [...existing, ...cleaned] : cleaned;
             saveQuestions(finalQuestions);
             showToast(`📥 已${action ? '合并' : '替换'}导入 ${valid} 道题目`);
+            bankPage = 1;
             refreshBank();
         } catch (err) {
             showToast('⚠️ 文件格式错误，无法解析');
@@ -1135,6 +1732,7 @@ function batchImport() {
     let msg = `✅ 成功导入 ${added} 道题目`;
     if (errors > 0) msg += `，${errors} 题格式错误已跳过`;
     showToast(msg);
+    bankPage = 1;
     refreshBank();
 }
 
@@ -1268,6 +1866,10 @@ function parseNaturalBlock(block) {
 function refreshBank() {
     const questions = loadQuestions();
 
+    // Update banner count
+    const bannerCountEl = document.getElementById('bannerCount');
+    if (bannerCountEl) bannerCountEl.textContent = questions.length;
+
     // Stats
     const multiCount = questions.filter(q => q.type === 'multi').length;
     const singleCount = questions.length - multiCount;
@@ -1303,10 +1905,17 @@ function refreshBank() {
 
     clearBtn.classList.remove('hidden');
 
+    // Pagination
+    const totalPages = Math.ceil(questions.length / BANK_PAGE_SIZE);
+    if (bankPage < 1) bankPage = 1;
+    if (bankPage > totalPages) bankPage = totalPages;
+
     // Show most recent first
     const sorted = [...questions].reverse();
-    const showCount = Math.min(sorted.length, 50); // limit display to 50
-    let html = sorted.slice(0, showCount).map(q => `
+    const start = (bankPage - 1) * BANK_PAGE_SIZE;
+    const pageQuestions = sorted.slice(start, start + BANK_PAGE_SIZE);
+
+    let html = pageQuestions.map(q => `
         <div class="question-item" onclick="previewQuestion(${q.id})">
             <div class="q-info">
                 <div class="q-title">${escapeTitle(q.title)}</div>
@@ -1323,11 +1932,53 @@ function refreshBank() {
         </div>
     `).join('');
 
-    if (questions.length > showCount) {
-        html += `<p style="text-align:center;color:var(--text-secondary);font-size:13px;margin-top:8px;">...还有 ${questions.length - showCount} 道题目未显示</p>`;
+    // Pagination controls
+    if (totalPages > 1) {
+        html += renderPagination(bankPage, totalPages);
     }
 
     listEl.innerHTML = html;
+}
+
+function renderPagination(current, totalPages) {
+    let html = '<div class="pagination">';
+    html += `<button class="page-btn page-nav" onclick="goToBankPage(${current - 1})"${current <= 1 ? ' disabled' : ''}>‹ 上一页</button>`;
+
+    // Build page numbers with ellipsis
+    const pages = [];
+    if (totalPages <= 7) {
+        for (let i = 1; i <= totalPages; i++) pages.push(i);
+    } else {
+        pages.push(1);
+        if (current > 3) pages.push('...');
+        for (let i = Math.max(2, current - 1); i <= Math.min(totalPages - 1, current + 1); i++) {
+            pages.push(i);
+        }
+        if (current < totalPages - 2) pages.push('...');
+        pages.push(totalPages);
+    }
+
+    for (const p of pages) {
+        if (p === '...') {
+            html += '<span class="page-info">…</span>';
+        } else {
+            html += `<button class="page-btn${p === current ? ' active' : ''}" onclick="goToBankPage(${p})">${p}</button>`;
+        }
+    }
+
+    html += `<button class="page-btn page-nav" onclick="goToBankPage(${current + 1})"${current >= totalPages ? ' disabled' : ''}>下一页 ›</button>`;
+    html += `<span class="page-info">${current} / ${totalPages} 页</span>`;
+    html += '</div>';
+    return html;
+}
+
+function goToBankPage(page) {
+    const totalPages = Math.ceil(loadQuestions().length / BANK_PAGE_SIZE);
+    if (page < 1) page = 1;
+    if (page > totalPages) page = totalPages;
+    bankPage = page;
+    refreshBank();
+    document.getElementById('panel-bank').scrollIntoView({ behavior: 'smooth' });
 }
 
 function previewQuestion(id) {
@@ -1411,73 +2062,77 @@ function startPractice() {
 
     practiceState = {
         questions: selected,
-        currentIndex: 0,
         answers: {},       // index -> selected option letter
         submitted: false
     };
 
     document.getElementById('prePractice').classList.add('hidden');
     document.getElementById('inPractice').classList.remove('hidden');
-    document.getElementById('submitBtn').style.display = 'none';
 
-    renderQuestion();
+    renderAllQuestions();
+
+    // Scroll to top
+    document.getElementById('panel-practice').scrollIntoView({ behavior: 'smooth' });
 }
 
-function renderQuestion() {
+function updateProgress() {
     const state = practiceState;
     if (!state) return;
-
-    const q = state.questions[state.currentIndex];
     const total = state.questions.length;
-    const isMulti = q.type === 'multi';
-
-    // Progress
-    const answeredCount = Object.keys(state.answers).length;
-    document.getElementById('progressLabel').textContent = `第 ${state.currentIndex + 1} / ${total} 题`;
-    document.getElementById('answeredLabel').textContent = `已答 ${answeredCount} 题`;
-    document.getElementById('progressFill').style.width = `${((state.currentIndex + 1) / total) * 100}%`;
-
-    // Question with type badge
-    const typeBadge = isMulti ? '<span class="multi-hint">不定项选择</span>' : '';
-    document.getElementById('questionDisplay').innerHTML = escapeTitle(q.title) + typeBadge;
-
-    // Options
-    const optionsList = document.getElementById('optionsList');
-    const selectedAnswer = state.answers[state.currentIndex] || '';
-    const selectedSet = new Set(selectedAnswer.split(''));
-
-    optionsList.innerHTML = ['A', 'B', 'C', 'D'].map(letter => {
-        let cls = 'option-item';
-        if (selectedSet.has(letter)) cls += ' selected';
-        return `
-            <div class="${cls}" onclick="selectAnswer('${letter}')">
-                <div class="option-letter">${letter}</div>
-                <div class="option-text">${escapeHtml(q.options[letter])}</div>
-            </div>`;
-    }).join('');
-
-    // Update hint text for multi-select
-    const hintEl = document.getElementById('submitHint');
-    if (isMulti && selectedAnswer) {
-        hintEl.textContent = `已选: ${selectedAnswer.split('').join('、')}`;
-    } else {
-        hintEl.textContent = isMulti ? '可多选' : '';
-    }
-
-    // Navigation buttons
-    document.getElementById('prevBtn').disabled = state.currentIndex === 0;
-    const isLast = state.currentIndex === total - 1;
-    document.getElementById('nextBtn').classList.toggle('hidden', isLast);
-    document.getElementById('submitBtn').style.display = isLast ? 'inline-flex' : 'none';
+    const answeredCount = Object.values(state.answers).filter(a => a).length;
+    document.getElementById('progressLabel').textContent = `共 ${total} 题`;
+    document.getElementById('answeredLabel').textContent = `已答 ${answeredCount} / ${total}`;
+    document.getElementById('progressFill').style.width = `${(answeredCount / total) * 100}%`;
 }
 
-function selectAnswer(letter) {
+function renderAllQuestions() {
     const state = practiceState;
     if (!state) return;
 
-    const q = state.questions[state.currentIndex];
+    updateProgress();
+
+    const scroll = document.getElementById('questionsScroll');
+    scroll.innerHTML = state.questions.map((q, i) => {
+        const isMulti = q.type === 'multi';
+        const selectedAnswer = state.answers[i] || '';
+        const selectedSet = new Set(selectedAnswer.split(''));
+        const answered = !!selectedAnswer;
+        const typeBadge = isMulti
+            ? '<span class="q-multi-hint">多选</span>'
+            : '<span class="q-single-hint">单选</span>';
+        const hintText = isMulti && selectedAnswer
+            ? `已选: ${selectedAnswer.split('').join('、')}`
+            : (isMulti ? '可多选' : '');
+
+        return `
+        <div class="question-card${answered ? ' answered' : ''}" id="q-card-${i}">
+            <div class="q-header">
+                <div class="q-number${answered ? ' done' : ''}">${i + 1}</div>
+                <div class="q-title">${escapeTitle(q.title)}${typeBadge}</div>
+            </div>
+            <div class="options-list">
+                ${['A', 'B', 'C', 'D'].map(letter => {
+                    let cls = 'option-item';
+                    if (selectedSet.has(letter)) cls += ' selected';
+                    return `
+                <div class="${cls}" onclick="selectAnswer(${i}, '${letter}')" id="opt-${i}-${letter}">
+                    <div class="option-letter">${letter}</div>
+                    <div class="option-text">${escapeHtml(q.options[letter])}</div>
+                </div>`;
+                }).join('')}
+            </div>
+            ${hintText ? `<div style="margin-top:10px;font-size:12px;color:var(--text-secondary);">${hintText}</div>` : ''}
+        </div>`;
+    }).join('');
+}
+
+function selectAnswer(questionIndex, letter) {
+    const state = practiceState;
+    if (!state || state.submitted) return;
+
+    const q = state.questions[questionIndex];
     const isMulti = q.type === 'multi';
-    const current = state.answers[state.currentIndex] || '';
+    const current = state.answers[questionIndex] || '';
 
     if (isMulti) {
         // Toggle the letter
@@ -1487,31 +2142,59 @@ function selectAnswer(letter) {
         } else {
             selected.add(letter);
         }
-        state.answers[state.currentIndex] = Array.from(selected).sort().join('');
+        state.answers[questionIndex] = Array.from(selected).sort().join('');
     } else {
         // Single select — clicking same option deselects
-        state.answers[state.currentIndex] = (current === letter) ? '' : letter;
+        state.answers[questionIndex] = (current === letter) ? '' : letter;
     }
-    renderQuestion();
+
+    // Update only this question card's DOM (no full re-render)
+    updateQuestionCard(questionIndex);
+    updateProgress();
 }
 
-function nextQuestion() {
+function updateQuestionCard(i) {
     const state = practiceState;
     if (!state) return;
 
-    if (state.currentIndex < state.questions.length - 1) {
-        state.currentIndex++;
-        renderQuestion();
+    const q = state.questions[i];
+    const isMulti = q.type === 'multi';
+    const selectedAnswer = state.answers[i] || '';
+    const selectedSet = new Set(selectedAnswer.split(''));
+    const answered = !!selectedAnswer;
+
+    // Update card border
+    const card = document.getElementById('q-card-' + i);
+    if (card) {
+        card.classList.toggle('answered', answered);
     }
-}
 
-function prevQuestion() {
-    const state = practiceState;
-    if (!state) return;
+    // Update number badge
+    const numEl = card ? card.querySelector('.q-number') : null;
+    if (numEl) {
+        numEl.classList.toggle('done', answered);
+    }
 
-    if (state.currentIndex > 0) {
-        state.currentIndex--;
-        renderQuestion();
+    // Update option items
+    ['A', 'B', 'C', 'D'].forEach(letter => {
+        const opt = document.getElementById('opt-' + i + '-' + letter);
+        if (opt) {
+            opt.classList.toggle('selected', selectedSet.has(letter));
+        }
+    });
+
+    // Update hint text
+    const hintEl = card ? card.querySelector('.q-header + .options-list + div') : null;
+    if (hintEl) {
+        if (isMulti && selectedAnswer) {
+            hintEl.textContent = `已选: ${selectedAnswer.split('').join('、')}`;
+            hintEl.style.display = '';
+        } else if (isMulti) {
+            hintEl.textContent = '可多选';
+            hintEl.style.display = '';
+        } else {
+            hintEl.style.display = 'none';
+        }
     }
 }
 
@@ -1543,6 +2226,8 @@ function submitPractice() {
     });
 
     state.submitted = true;
+    // 保存本次练习结果，便于加入错题本
+    window.lastPracticeResults = results;
     showResult(correct, total, results);
 }
 
@@ -1586,6 +2271,7 @@ function showResult(correct, total, results) {
             <div style="margin-top:24px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
                 <button class="btn btn-primary" onclick="retryPractice()">🔄 再来一组</button>
                 <button class="btn btn-outline" onclick="closeResult()">📚 返回题库</button>
+                <button class="btn btn-primary" onclick="saveWrongToNotebook()">➕ 加入错题本</button>
             </div>
         </div>
     `;
@@ -1630,43 +2316,152 @@ document.addEventListener('keydown', function(e) {
             return;
         }
     }
-
-    const state = practiceState;
-    if (!state) return;
-
-    // Don't capture if typing in an input
-    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
-
-    const q = state.questions[state.currentIndex];
-    const isMulti = q && q.type === 'multi';
-
-    switch(e.key.toUpperCase()) {
-        case 'A': case 'B': case 'C': case 'D':
-            e.preventDefault();
-            selectAnswer(e.key.toUpperCase());
-            break;
-        case 'ARROWRIGHT': case 'N':
-            e.preventDefault();
-            nextQuestion();
-            break;
-        case 'ARROWLEFT': case 'P':
-            e.preventDefault();
-            prevQuestion();
-            break;
-        case 'ENTER':
-            e.preventDefault();
-            if (isMulti) break; // Don't navigate on Enter for multi-select (user may still be selecting)
-            const isLast = state.currentIndex === state.questions.length - 1;
-            if (isLast) submitPractice();
-            else nextQuestion();
-            break;
-    }
 });
 
 // ==================== Init ====================
+// ==================== 错题本功能 ====================
+function loadWrongNotes() {
+    try { return JSON.parse(localStorage.getItem('wrongNotes') || '[]'); } catch (e) { return []; }
+}
+function saveWrongNotes(notes) {
+    localStorage.setItem('wrongNotes', JSON.stringify(notes || []));
+}
+
+function renderWrongBook() {
+    const notes = loadWrongNotes();
+    const container = document.getElementById('wrongBookList');
+    if (!container) return;
+    if (!notes || notes.length === 0) {
+        container.innerHTML = `
+            <div class="empty-state">
+                <div class="icon">🧾</div>
+                <p>错题本空空如也</p>
+                <p style="font-size:13px;color:var(--text-secondary)">练习后将错题加入错题本</p>
+            </div>`;
+        return;
+    }
+
+    container.innerHTML = notes.map((n, idx) => `
+        <div class="question-item">
+            <div class="q-info">
+                <div class="q-title">${escapeTitle(n.question.title)}</div>
+                <div class="q-meta">
+                    <span>你的答案: ${n.userAnswer}</span>
+                    <span>正确答案: ${n.question.answer}</span>
+                    <span>${new Date(n.savedAt).toLocaleString()}</span>
+                </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end;">
+                <button class="btn btn-outline" onclick="viewWrongDetail(${idx})">查看</button>
+                <button class="delete-btn" title="删除" onclick="removeWrongNote(${idx})">✖</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+function saveWrongToNotebook() {
+    const results = window.lastPracticeResults;
+    if (!results || !Array.isArray(results)) {
+        showToast('⚠️ 当前没有可保存的练习结果');
+        return;
+    }
+    const notes = loadWrongNotes();
+    let added = 0;
+    results.forEach(r => {
+        if (!r.isCorrect) {
+            const q = r.question;
+            // dedupe by question id if present, otherwise by title
+            const keyMatch = notes.findIndex(n => (n.question.id && q.id && n.question.id === q.id) || n.question.title === q.title);
+            const entry = { question: q, userAnswer: r.userAnswer, savedAt: Date.now() };
+            if (keyMatch === -1) {
+                notes.push(entry);
+                added++;
+            } else {
+                // update existing
+                notes[keyMatch].userAnswer = r.userAnswer;
+                notes[keyMatch].savedAt = Date.now();
+            }
+        }
+    });
+    saveWrongNotes(notes);
+    renderWrongBook();
+    showToast(`已保存 ${added} 道错题到错题本`);
+}
+
+function removeWrongNote(idx) {
+    const notes = loadWrongNotes();
+    if (idx < 0 || idx >= notes.length) return;
+    notes.splice(idx, 1);
+    saveWrongNotes(notes);
+    renderWrongBook();
+}
+
+function clearWrongBook() {
+    if (!confirm('确定要清空错题本吗？此操作不可撤销。')) return;
+    saveWrongNotes([]);
+    renderWrongBook();
+}
+
+function exportWrongNotes() {
+    const notes = loadWrongNotes();
+    if (!notes || notes.length === 0) { showToast('错题本为空'); return; }
+    const data = JSON.stringify(notes, null, 2);
+    const a = document.createElement('a');
+    const blob = new Blob([data], { type: 'application/json' });
+    a.href = URL.createObjectURL(blob);
+    a.download = 'wrong-notes.json';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    showToast('已导出错题本');
+}
+
+function viewWrongDetail(idx) {
+    const notes = loadWrongNotes();
+    const n = notes[idx];
+    if (!n) return;
+    const q = n.question;
+    const isMulti = q.type === 'multi';
+    const typeBadge = isMulti
+        ? '<span class="preview-type-badge" style="background:#fef3c7;color:#92400e;">不定项选择</span>'
+        : '<span class="preview-type-badge" style="background:#dcfce7;color:#166534;">单选题</span>';
+    const overlay = document.getElementById('previewOverlay');
+    overlay.innerHTML = `
+        <div class="preview-card">
+            <div class="q-title-preview">${escapeTitle(q.title)}${typeBadge}</div>
+            ${['A','B','C','D'].map(letter => {
+                const isCorrect = q.answer.includes(letter);
+                return `<div class="preview-option${isCorrect ? ' correct-preview' : ''}">
+                    <div class="preview-letter">${letter}</div>
+                    <div class="option-text">${escapeHtml(q.options[letter])}</div>
+                    ${isCorrect ? '<span style="font-size:20px;flex-shrink:0;">✅</span>' : ''}
+                </div>`;
+            }).join('')}
+            <div class="preview-answer-bar">
+                ✅ 正确答案：${q.answer.split('').join('、')} &nbsp;|&nbsp; 你的答案：${n.userAnswer}
+            </div>
+            <div class="preview-actions-row">
+                <button class="btn btn-outline" onclick="closePreview()">关闭</button>
+            </div>
+        </div>
+    `;
+    overlay.classList.remove('hidden');
+}
+
+function practiceWrongBook() {
+    const notes = loadWrongNotes();
+    if (!notes || notes.length === 0) { showToast('错题本为空'); return; }
+    const questions = notes.map(n => n.question);
+    practiceState = { questions: questions, answers: {}, submitted: false };
+    document.getElementById('prePractice').classList.add('hidden');
+    document.getElementById('inPractice').classList.remove('hidden');
+    switchTab('practice');
+    renderAllQuestions();
+}
 initQuestions();
 refreshBank();
 refreshPracticeInfo();
+renderWrongBook();
 </script>
 
 </body>
